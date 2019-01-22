@@ -38,27 +38,29 @@ struct memHeader *memSlot;
 // called from the initproc() function 
 // before any memory allocations occur
 extern void kmeminit(void) {
-    kprintf("\n !!!!!!== The max address is: %d =!!!!!! \n", maxaddr);
-    kprintf("\n ==== The freemem pointer value is: %d ==== \n ", freemem);
     // Need to create 2 free nodes as we have hole in between the free memory space
     // head pointer points to the start of free space 
     memSlot = (struct memHeader *)(freemem);
-    //kprintf("=== memSlot: %d; pointer size = %d; content size = %d ===", memSlot, sizeof(memSlot),sizeof(*memSlot));
+    // kprintf("=== memSlot: %d; pointer size = %d; content size = %d ===", memSlot, sizeof(memSlot),sizeof(*memSlot));
     // free space before hitting the hole
     memSlot -> size = (unsigned long) (HOLESTART - freemem); // including the header size here
     memSlot -> prev = NULL;
+    memSlot -> sanityCheck = memSlot;
+
+    kprintf("=== free memory chunk 1 size: %d; ==", memSlot -> size);
     // pointing to the free space after skipping the hole
     memSlot -> next = (struct memHeader *) HOLEEND; // pointer = address??
     // set the next node's prev pointer
     memSlot -> next -> prev = memSlot;
     // reset the pointer pointing to 2nd new space
     memSlot = memSlot -> next;
-    //kprintf("\n ==== The new 2nd pointer value is: %d ==== \n; HoleEnd is %d ", memSlot, HOLEEND);
+    // kprintf("\n ==== The new 2nd pointer value is: %d ==== \n; HoleEnd is %d ", memSlot, HOLEEND);
     // Set the size of the 2nd new space
     memSlot -> size = (unsigned long) (maxaddr - HOLEEND);
-    //kprintf("\n ==== SIZE of 2nd free space ==== %d\n; maxaddr is %d, its prev pointer = %d ", (*memSlot).size, HOLEEND, (*memSlot).prev);
+    // kprintf("\n ==== SIZE of 2nd free space ==== %d\n; maxaddr is %d, its prev pointer = %d ", (*memSlot).size, HOLEEND, (*memSlot).prev);
     // Set the next pointer of the 2nd new space as NULL
     memSlot -> next = NULL;
+    memSlot -> sanityCheck = memSlot;
     // memSlot points to the head, which refers to the start of the freemem
     memSlot = (struct memHeader *)freemem;
     kprintf("\n ==== The memSlot pointer value is: %d ==== \n ", memSlot);
@@ -70,31 +72,37 @@ extern void kmeminit(void) {
     // Points directly to the data structure not the header
     int freed1 = kfree(mem1);
     void* mem3 = kmalloc(16);
+    // kprintf ("Calling mem3 allocation...: %d", mem3);
+    void* mem4 = kmalloc(620300);
     int freed2 = kfree(mem2);
+    int freed3 = kfree(mem2 + 10);
     checkLinkedListSize();
-    kprintf ("Calling mem1 allocation...", mem1);
-    kprintf ("Calling mem2 allocation...", mem2);
+    //kprintf ("\n Calling mem1 allocation...: %d", mem1);
+    //kprintf ("Calling mem2 allocation...", mem2);
 }
 
 void checkLinkedListSize(void) {
    struct memHeader *cur; 
    cur = memSlot;
+   kprintf("\n ==== The linked list addr is: %d ==== \n ", cur);
    int count = 1;
    while(cur -> next != NULL) {
        kprintf("keep iterating");
        cur = cur -> next;
        count++;
+       kprintf("\n ==== The linked list addr is: %d ==== \n ", cur);
    }
    kprintf("\n ==== The linked list size is: %d ==== \n ", count);
 }
 
 extern void *kmalloc(size_t size) {
-    // kprintf("\n Allocating memory of size :%d \n", size);
+    kprintf("\n memSlot :%d \n", memSlot);
     struct memHeader *cur = memSlot;
-    unsigned long amnt = (size)/16 + ((size % 16)? 1:0);
+    struct memHeader *tmp = memSlot;
+    unsigned long amnt = (size) / 16 + ((size % 16)? 1:0);
     // kprintf("\n Number of paragraph allocated :%d \n", amnt);
     amnt = amnt * 16 + sizeof(struct memHeader);
-    kprintf("\n Actual Memory allocated :%d \n", amnt);
+    // kprintf("\n Actual Memory allocated :%d \n", amnt);
     
     // if the size <= 0, ignore the request
     if (amnt <= 0) {
@@ -103,8 +111,8 @@ extern void *kmalloc(size_t size) {
     }
 
     while (cur != NULL) {
-        // we will start from one case ---> add in loop afterwards
         if (cur -> size >= amnt) {
+            tmp = cur;
             // keep the original size (including the header size)
             unsigned long originalSize = cur -> size;
             // resize the current node
@@ -113,27 +121,44 @@ extern void *kmalloc(size_t size) {
             /////// sanity check here ////////
             // seperate the rest as another chunk
             // pointer reset to the new address
-            cur = (struct memHeader *)((unsigned long)memSlot + amnt); /// pay attention to this
-            // Size of the free chunk after allocation
+            cur = (struct memHeader *)((unsigned long)cur + amnt); /// pay attention to this
+            // kprintf("------ cur pointer value after redirect to next chunk------: %d", cur);
+            // Size of the free chunk + header after allocation
             cur -> size = originalSize - amnt;
-            kprintf("\n new address of pointer %d, new size: %d \n", cur, cur -> size);
+            // Any potential risk for setting sanityCheck as a pointer pointing to the start of header?
+            cur -> sanityCheck = cur;
+            // kprintf("\n new address of pointer %d, new size: %d \n", cur, cur -> size);
+            kprintf("\n sanity check pointer value: %d, address of header: %d \n", cur -> sanityCheck, cur);
             
-            cur -> next = memSlot -> next;
-            cur -> prev = memSlot -> prev;
-
+            cur -> next = tmp -> next;
+            cur -> prev = tmp -> prev;
+            kprintf("cur->prev: %d", cur->prev);
+            if (cur -> prev) {
+                cur -> prev -> next = cur;
+            }
+            kprintf("cur->next: %d", cur->next);
+            if (cur -> next) {
+                cur -> next -> prev = cur;
+            }
+            
             // Clean up the pointers to avoid memory leaks
-            memSlot -> next -> prev = NULL;
-            memSlot -> next = NULL;
-            memSlot -> prev = NULL;
-            memSlot = cur; 
+            tmp -> next = NULL;
+            // if the head of the freelist has been (partially) filled, move the head of the list
+            if (!(tmp -> prev)) {
+                memSlot = cur;
+            }
+            kprintf("the adjusted pointer value: %d", memSlot);
+            tmp -> prev = NULL;
+            // tmp = NULL; 
 
             // Can only allocate on 16 byte paragraph boundaries, last 4 bits would always be 0
             // ASSERT_EQUAL(((size_t)cur -> dataStart & 0xf), 0);
-            return memSlot -> dataStart;
+            return tmp -> dataStart;
         } else {
             // if current node(free space) is too small, traverse the linked list
             // first-fit, not need to be best fit
             cur = cur -> next; 
+            kprintf("------ cur pointer value ------: %d", cur);
         }
     }
     return 0;
@@ -144,7 +169,16 @@ extern int kfree(void *ptr) {
     // Merge adjacent blocks together to create larger contiguous regions
     // stub
     if (ptr == NULL || ptr > maxaddr || (ptr >= HOLESTART && ptr <= HOLEEND)) {
-        kprintf("\n Error: ptr out of available range \n");
+        kprintf("\n Error: ptr out of available range. \n");
+        return 0;
+    }
+    /* Sanity Check here */
+    // Check the value here
+    // Find the starting addr of the header 
+    struct memHeader *startOfHeader = (struct memHeader *) ((unsigned long)ptr - sizeof(struct memHeader));
+    kprintf("~~~~~~~startOfHeader: %d", startOfHeader);
+    if ((strcmp(startOfHeader -> sanityCheck, startOfHeader)) != 0) {
+        kprintf("\n Error: no header found at the ptr address. \n");
         return 0;
     }
     // memSlot points to the head of the linked list
@@ -156,8 +190,10 @@ extern int kfree(void *ptr) {
     }
 
     // ASSERT_EQUAL((cur -> next), NULL);
-    // Need to test if the header is there
-    cur -> next = (struct memHeader *) ((unsigned long)ptr - sizeof(struct memHeader));
-    kprintf("\n the pointer value of the new added slot into free list: %d \n", cur -> next);
+    cur -> next = startOfHeader;
+    cur -> next -> prev = cur;
+    /* Sanity Check here */
+    // Do I need to reset sanity check value here?
+    // kprintf("\n the pointer value of the new added slot into free list: %d \n", cur -> next);
     return 1;
 }
