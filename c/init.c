@@ -25,7 +25,12 @@ extern char	*maxaddr;	/* max memory address (set in i386.c)	*/
  */
 void initproc( void )				/* The beginning */
 {
-  
+//   The initialization function initproc() should initialize data structures such as 
+// the memory manager lists, 
+// the process table, 
+// the process queues, 
+// and the interrupt table. As you add other components you will have to add code to initproc() to initialize them. 
+// The process table must be able to contain at least 32 processes. The size of the process table must be a power of 2.
   char str[1024];
   int a = sizeof(str);
   int b = -17;
@@ -52,12 +57,14 @@ void initproc( void )				/* The beginning */
   kprintf("\n\nThe %dstring is: \"%s\"\n\nThe formula is %d + %d = %d.\n\n\n", 
 	  a, str, a, b, a + b);
 
+  kprintf("\n\n ==== The max address is: %d ==== \n\n\n ", maxaddr);
+
   for (i = 0; i < 4000000; i++);
   /* or just on its own */
   kprintf(str);
 
   /* Add your code below this line and before next comment */
-
+  kmeminit();
 
 
   for (i = 0; i < 2000000; i++);

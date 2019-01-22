@@ -42,7 +42,9 @@ void           outb(unsigned int, unsigned char);
 void           set_evec(unsigned int xnum, unsigned long handler);
 
 
-
-
 /* Anything you add must be between the #define and this comment */
+extern void kmeminit(void);
+extern void *kmalloc(size_t size);
+extern int kfree(void *ptr);
+void checkLinkedListSize(void);
 #endif
