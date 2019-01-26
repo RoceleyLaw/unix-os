@@ -68,28 +68,28 @@ extern void kmeminit(void) {
     memSlot = (struct memHeader *)(freemem + (freemem % 16));
     kprintf("\n ==== The memSlot pointer value is: %d ==== \n ", memSlot);
     
-    for (int i = 0; i < 2; i ++) {
-        /* Called to debug the function. Should never be called here*/
-        void* mem1 = kmalloc(1);
-        void* mem2 = kmalloc(17);
-        // Points directly to the data structure not the header
-        int freed1 = kfree(mem1);
-        void* mem3 = kmalloc(16);
-        // kprintf ("Calling mem3 allocation...: %d", mem3);
-        void* mem4 = kmalloc(620300);
-        kprintf ("Calling free2 allocation...: %d", mem2);
-        int freed2 = kfree(mem3);
-        int free4 = kfree(mem2);
-        // free the same spot twice to check sanitycheck value
-        int free5 = kfree(mem2);
-        int freed6 = kfree(mem3);
-        int freed3 = kfree((unsigned long)mem2 + 10);
-        // size that fits exactly the space left in the first segment of free mem
-        void* mem6 = kmalloc(1911008 - 16);
-        void* mem5 = kmalloc(620240 - 16);
-        void* mem8 = kmalloc(1);
-        void* mem9 = kmalloc(17);
-    }
+   
+    /* Called to debug the function. Should never be called here*/
+    void* mem1 = kmalloc(1);
+    void* mem2 = kmalloc(17);
+    // Points directly to the data structure not the header
+    int freed1 = kfree(mem1);
+    void* mem3 = kmalloc(16);
+    // kprintf ("Calling mem3 allocation...: %d", mem3);
+    void* mem4 = kmalloc(620300);
+    kprintf ("Calling free2 allocation...: %d", mem2);
+    int freed2 = kfree(mem3);
+    int free4 = kfree(mem2);
+    // free the same spot twice to check sanitycheck value
+    int free5 = kfree(mem2);
+    int freed6 = kfree(mem3);
+    int freed3 = kfree((unsigned long)mem2 + 10);
+    // size that fits exactly the space left in the first segment of free mem
+    void* mem6 = kmalloc(1911008 - 16);
+    void* mem5 = kmalloc(620240 - 16);
+    void* mem8 = kmalloc(1);
+    void* mem9 = kmalloc(17);
+    
     //int free7 = kfree(mem2);
     //int freed8 = kfree(mem3);
     //int freed9 = kfree(mem1);
