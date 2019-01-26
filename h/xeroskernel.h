@@ -46,5 +46,5 @@ void           set_evec(unsigned int xnum, unsigned long handler);
 extern void kmeminit(void);
 extern void *kmalloc(size_t size);
 extern int kfree(void *ptr);
-void checkLinkedListSize(void);
+int checkLinkedListSize(void);
 #endif
