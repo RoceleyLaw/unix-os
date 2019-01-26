@@ -68,7 +68,7 @@ extern void kmeminit(void) {
     memSlot = (struct memHeader *)(freemem + (freemem % 16));
     kprintf("\n ==== The memSlot pointer value is: %d ==== \n ", memSlot);
     
-    //for (int i = 0; i < 2; i ++) {
+    for (int i = 0; i < 2; i ++) {
         /* Called to debug the function. Should never be called here*/
         void* mem1 = kmalloc(1);
         void* mem2 = kmalloc(17);
@@ -85,14 +85,15 @@ extern void kmeminit(void) {
         int freed6 = kfree(mem3);
         int freed3 = kfree((unsigned long)mem2 + 10);
         // size that fits exactly the space left in the first segment of free mem
-         void* mem6 = kmalloc(1911008 - 16);
-         void* mem5 = kmalloc(620240 - 16);
-    // //}
-    int free7 = kfree(mem2);
-    int freed8 = kfree(mem3);
-    int freed9 = kfree(mem1);
-    void* mem8 = kmalloc(1);
-    void* mem9 = kmalloc(17);
+        void* mem6 = kmalloc(1911008 - 16);
+        void* mem5 = kmalloc(620240 - 16);
+        void* mem8 = kmalloc(1);
+        void* mem9 = kmalloc(17);
+    }
+    //int free7 = kfree(mem2);
+    //int freed8 = kfree(mem3);
+    //int freed9 = kfree(mem1);
+    
     int count = checkLinkedListSize();
     //kprintf ("\n Calling mem1 allocation...: %d", mem1);
     //kprintf ("Calling mem2 allocation...", mem2);
