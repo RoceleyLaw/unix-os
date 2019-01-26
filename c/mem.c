@@ -91,7 +91,7 @@ extern void kmeminit(void) {
     // int free7 = kfree(mem2);
     // int freed8 = kfree(mem3);
     int freed9 = kfree(mem1);
-    // void* mem8 = kmalloc(1);
+    void* mem8 = kmalloc(1);
     // void* mem9 = kmalloc(17);
     int count = checkLinkedListSize();
     //kprintf ("\n Calling mem1 allocation...: %d", mem1);
