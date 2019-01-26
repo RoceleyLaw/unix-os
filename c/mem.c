@@ -88,8 +88,8 @@ extern void kmeminit(void) {
          void* mem6 = kmalloc(1911008 - 16);
          void* mem5 = kmalloc(620240 - 16);
     // //}
-    // int free7 = kfree(mem2);
-    // int freed8 = kfree(mem3);
+    int free7 = kfree(mem2);
+    int freed8 = kfree(mem3);
     int freed9 = kfree(mem1);
     void* mem8 = kmalloc(1);
     void* mem9 = kmalloc(17);
