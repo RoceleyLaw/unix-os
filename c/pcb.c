@@ -6,6 +6,7 @@ pcb_t *ready_queue;
 pcb_t *blocked_queue;
 // for debugging purpose
 pcb_t *running_process;
+pcb_t pcb_table[32];
 
 extern void initpcbtable() {
     kprintf("/n === initializing pcb table ======= /n");
