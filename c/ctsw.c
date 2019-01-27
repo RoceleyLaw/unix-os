@@ -10,4 +10,6 @@
    assembly language conventions.
 */
 extern void contextinit () {}
-extern void contextswitch() {}
+extern int contextswitch(pcb_t *p) {
+    return 0;
+}

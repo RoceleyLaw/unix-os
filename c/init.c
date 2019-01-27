@@ -66,7 +66,7 @@ void initproc( void )				/* The beginning */
   /* Add your code below this line and before next comment */
   kmeminit();
 
-
+  initpcbtable();
   for (i = 0; i < 2000000; i++);
   /* Add all of your code before this comment and after the previous comment */
   /* This code should never be reached after you are done */

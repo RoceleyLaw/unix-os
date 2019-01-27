@@ -73,20 +73,29 @@ typedef struct pcb {
     int PID;
     process_state_enum_t state;
     // int parent_pid; // Not required for our kernel
-    struct CPU cpu_state; // CPU context part 1: IP, stack, registers, process flags
+    // struct CPU cpu_state; // CPU context part 1: IP, stack, registers, process flags
+    // we only need to store the stack ptr. Context would be stored on top of process stack
+    unsigned long *esp;
     struct pcb *next;
 } pcb_t;
+
+// Global static array of size 32 (max process we need to accommodate)
+extern pcb_t pcb_table[32];
 
 extern void kmeminit(void);
 extern void *kmalloc(size_t size);
 extern int kfree(void *ptr);
 int checkLinkedListSize(void);
 extern void dispatch();
-extern void contextswitch();
+extern int contextswitch(pcb_t *p);
 extern void contextinit ();
 extern int create( void (*func)(void), int stack );
 
+// syscall.c
 extern unsigned int syscreate( void (*func)(void), int stack );
-extern void sysyield( void );
-extern void sysstop( void );
+extern void sysyield(void);
+extern void sysstop(void);
+
+// pcb.c
+extern void initpcbtable(void);
 #endif
