@@ -45,7 +45,7 @@ UOBJ = mem.o disp.o ctsw.o syscall.o create.o user.o msg.o sleep.o signal.o
 #Add your sources here
 MY_OBJ = pcb.o
 
-pcb.o: ../c/pcb.c ../h/xeroskernel.h ../h/xeroslib.h
+
 # Don't modiy any of this unless you are really sure
 all: xeros 
 
@@ -87,3 +87,6 @@ user.o: ../c/user.c ../h/xeroskernel.h ../h/xeroslib.h
 msg.o: ../c/msg.c ../h/xeroskernel.h ../h/xeroslib.h 
 sleep.o: ../c/sleep.c ../h/xeroskernel.h ../h/xeroslib.h
 signal.o: ../c/signal.c ../h/xeroskernel.h ../h/xeroslib.h
+
+# my new added c file
+pcb.o: ../c/pcb.c ../h/xeroskernel.h ../h/xeroslib.h
