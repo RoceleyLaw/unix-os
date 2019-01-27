@@ -99,9 +99,9 @@ extern void kmeminit(void) {
 
 // Helper function for testing 
 extern int checkLinkedListSize(void* head) {
-   void *cur; 
+   struct memHeader *cur = head; 
    // cur = memSlot;
-    cur = head;
+
 //    if (cur) {
 //        kprintf("\n ==== The linked list addr is: %d, size is: %d ==== \n ", cur, cur -> size);
 //    } else {
@@ -109,11 +109,11 @@ extern int checkLinkedListSize(void* head) {
 //        return 0;
 //    }
    int count = 0;
-   while(cur) {
+   while(!cur) {
        kprintf("keep iterating");
        cur = cur -> next;
        count++;
-       // kprintf("\n ==== The linked list addr is: %d , size is: %d ==== \n ", cur, cur -> size);
+       kprintf("\n ==== The linked list addr is: %d , size is: %d ==== \n ", cur, cur -> size);
    }
    kprintf("\n ==== The linked list size is: %d ==== \n ", count);
    return count;
