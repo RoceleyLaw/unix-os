@@ -24,7 +24,7 @@ extern void initpcbtable() {
         // next would only be used for queue(linked list structure)
         // initialize the queue
         // do not populate next of the last element
-        if (i == pcbtable_size - 1) {
+        if (i != pcbtable_size - 1) {
             pcb_table[i].next = (pcb_t *)(&pcb_table[i+1]);
         }
     }
