@@ -85,7 +85,7 @@ extern pcb_t pcb_table[32];
 extern void kmeminit(void);
 extern void *kmalloc(size_t size);
 extern int kfree(void *ptr);
-int checkLinkedListSize(void);
+extern int checkLinkedListSize(void* head);
 extern void dispatch();
 extern int contextswitch(pcb_t *p);
 extern void contextinit ();

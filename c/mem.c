@@ -92,27 +92,28 @@ extern void kmeminit(void) {
     int freed9 = kfree(mem1);
     void* mem8 = kmalloc(1);
     void* mem9 = kmalloc(17);
-    int count = checkLinkedListSize();
+    int count = checkLinkedListSize(memSlot);
     //kprintf ("\n Calling mem1 allocation...: %d", mem1);
     //kprintf ("Calling mem2 allocation...", mem2);
 }
 
 // Helper function for testing 
-int checkLinkedListSize(void) {
+extern int checkLinkedListSize(void* head) {
    struct memHeader *cur; 
-   cur = memSlot;
-   if (cur) {
-       kprintf("\n ==== The linked list addr is: %d, size is: %d ==== \n ", cur, cur -> size);
-   } else {
-       kprintf("\n ==== The linked list addr is: %d, size is 0 ", cur);
-       return 0;
-   }
-   int count = 1;
-   while(cur -> next != NULL) {
+   // cur = memSlot;
+    cur = head;
+//    if (cur) {
+//        kprintf("\n ==== The linked list addr is: %d, size is: %d ==== \n ", cur, cur -> size);
+//    } else {
+//        kprintf("\n ==== The linked list addr is: %d, size is 0 ", cur);
+//        return 0;
+//    }
+   int count = 0;
+   while(cur) {
        kprintf("keep iterating");
        cur = cur -> next;
        count++;
-       kprintf("\n ==== The linked list addr is: %d , size is: %d ==== \n ", cur, cur -> size);
+       // kprintf("\n ==== The linked list addr is: %d , size is: %d ==== \n ", cur, cur -> size);
    }
    kprintf("\n ==== The linked list size is: %d ==== \n ", count);
    return count;

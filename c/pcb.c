@@ -18,9 +18,10 @@ extern void initpcbtable() {
     for(int i = 0; i < pcbtable_size; i++) {
         cur -> PID = i + 1;
         cur -> state = STOPPED;
-        kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=> PID: %d, cur: %d ^^", cur -> PID, cur);
         cur = cur -> next;
     }
+    int count = checkLinkedListSize(stopped_queue);
+    kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=> count: %d ^^", count);
     // Avoid dangling ptr
     cur = NULL;
 }
