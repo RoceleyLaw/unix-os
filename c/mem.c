@@ -99,7 +99,7 @@ extern void kmeminit(void) {
 
 // Helper function for testing 
 extern int checkLinkedListSize(void* head) {
-   struct memHeader *cur; 
+   void *cur; 
    // cur = memSlot;
     cur = head;
 //    if (cur) {
