@@ -63,7 +63,7 @@ extern int dequeuepcb(process_state_enum_t state) {
         // kprintf("\n ^^^ remaining size: %d", size);
         // kprintf("\n ^^^^  dequeue PID: %d", cur -> PID);
         return cur -> PID;
-    } else if (state == blocked_queue) {
+    } else if (state == BLOCKED) {
         cur = blocked_queue;
         blocked_queue = blocked_queue -> bq_next;
         cur -> bq_next = NULL;
@@ -76,13 +76,4 @@ extern int dequeuepcb(process_state_enum_t state) {
         return -1;
     }
     return -1;
-}
-
-int dequeuepcbHelper(pcb_t *queue, pcb_t *next) {
-    pcb_t *cur = queue;
-    cur = cur -> next;
-    queue -> next = NULL;
-    queue = cur;
-    kprintf("\n ^^^^  dequeue PID: %d", queue -> PID);
-    return queue -> PID;
 }
