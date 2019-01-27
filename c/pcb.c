@@ -15,14 +15,15 @@ extern void initpcbtable() {
     size_t pcbtable_size = sizeof(pcb_table) / sizeof (pcb_t);
     kprintf("/n ##### pcb table size: %d ####### /n", pcbtable_size);
 
-    stopped_queue = &pcb_table;
+    stopped_queue = &pcb_table[0];
     for(int i = 0; i < pcbtable_size; i++) {
         // initialize the pcb table
         pcb_table[i].PID = i + 1;
         pcb_table[i].state = STOPPED;
         // next would only be used for queue
         // initialize the queue
-        pcb_table[i].next = (pcb_t *)(pcb_table + ((i + 1) * sizeof(pcb_t)));
+        pcb_table[i].next = (pcb_t *)(&pcb_table[i+1]);
+        kprintf("\n AHHHHHHHHH : %d",  &pcb_table[i+1] - &pcb_table[i]);
     }
     int size = checkLinkedListLength(stopped_queue);
     kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=>size: %d ^^", size);
