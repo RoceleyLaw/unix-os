@@ -47,18 +47,18 @@ extern int dequeuepcb(process_state_enum_t state) {
     if (state == STOPPED) {
         int size = checkLinkedListLength(stopped_queue);
         kprintf("\n ^^^ remaining size: %d", size);
-        return dequeuepcb(&stopped_queue);
+        return dequeuepcbHelper(&stopped_queue);
     } else if (state == READY) {
-        return dequeuepcb(&ready_queue);
+        return dequeuepcbHelper(&ready_queue);
     } else if (state == blocked_queue) {
-        return dequeuepcb(&blocked_queue);
+        return dequeuepcbHelper(&blocked_queue);
     } else {
         return -1;
     }
     return -1;
 }
 
-int dequeuepcb(pcb_t *queue) {
+int dequeuepcbHelper(pcb_t *queue) {
     pcb_t *cur = queue;
     cur = (*cur).next;
     (*queue).next = NULL;
