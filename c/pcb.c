@@ -25,7 +25,9 @@ extern void initpcbtable() {
         // initialize the queue
         // do not populate next of the last element
         if (i != pcbtable_size - 1) {
-            pcb_table[i].next = (pcb_t *)(&pcb_table[i+1]);
+            pcb_table[i].sq_next = (pcb_t *)(&pcb_table[i+1]);
+        } else {
+            pcb_table[i].sq_next = NULL;
         }
     }
     int size = checkLinkedListLength(stopped_queue);
@@ -36,7 +38,7 @@ int checkLinkedListLength(void* head) {
    pcb_t *cur = head; 
    int count = 0;
    while(cur != NULL) {
-       cur = (*cur).next;
+       cur = cur -> sq_next;
        // kprintf("\n cur: %d", cur);
        count++;
    }
@@ -44,25 +46,43 @@ int checkLinkedListLength(void* head) {
 }
 
 extern int dequeuepcb(process_state_enum_t state) {
+    pcb_t *cur = NULL;
     if (state == STOPPED) {
+        cur = stopped_queue;
+        stopped_queue = stopped_queue -> sq_next;
+        cur -> sq_next = NULL;
         int size = checkLinkedListLength(stopped_queue);
         kprintf("\n ^^^ remaining size: %d", size);
-        return dequeuepcbHelper(&stopped_queue);
+        kprintf("\n ^^^^  dequeue PID: %d", cur -> PID);
+        return cur -> PID;
     } else if (state == READY) {
-        return dequeuepcbHelper(&ready_queue);
+        cur = ready_queue;
+        ready_queue = ready_queue -> rq_next;
+        cur -> rq_next = NULL;
+        // int size = checkLinkedListLength(ready_queue);
+        // kprintf("\n ^^^ remaining size: %d", size);
+        // kprintf("\n ^^^^  dequeue PID: %d", cur -> PID);
+        return cur -> PID;
     } else if (state == blocked_queue) {
-        return dequeuepcbHelper(&blocked_queue);
+        cur = blocked_queue;
+        blocked_queue = blocked_queue -> bq_next;
+        cur -> bq_next = NULL;
+        // int size = checkLinkedListLength(blocked_queue);
+        // kprintf("\n ^^^ remaining size: %d", size);
+        // kprintf("\n ^^^^  dequeue PID: %d", cur -> PID);
+        return cur -> PID;
     } else {
+        kprintf("\n Error: dequeue failure!");
         return -1;
     }
     return -1;
 }
 
-int dequeuepcbHelper(pcb_t *queue) {
+int dequeuepcbHelper(pcb_t *queue, pcb_t *next) {
     pcb_t *cur = queue;
-    cur = (*cur).next;
-    (*queue).next = NULL;
+    cur = cur -> next;
+    queue -> next = NULL;
     queue = cur;
-    kprintf("\n ^^^^  dequeue PID: %d", (*queue).PID);
-    return (*queue).PID;
+    kprintf("\n ^^^^  dequeue PID: %d", queue -> PID);
+    return queue -> PID;
 }

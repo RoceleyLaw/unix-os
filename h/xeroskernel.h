@@ -76,7 +76,12 @@ typedef struct pcb {
     // struct CPU cpu_state; // CPU context part 1: IP, stack, registers, process flags
     // we only need to store the stack ptr. Context would be stored on top of process stack
     unsigned long *esp;
-    struct pcb *next;
+    // next ptr for blocking queue
+    struct pcb *bq_next;
+    // next ptr for stopped queue
+    struct pcb *sq_next;
+    // next ptr for ready queue
+    struct pcb *rq_next;
 } pcb_t;
 
 // Global static array of size 32 (max process we need to accommodate)
