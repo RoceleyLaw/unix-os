@@ -50,19 +50,6 @@ typedef enum {
     STOPPED
 } process_state_enum_t;
 
-// Is our context our CPU state as well ??
-struct CPU {
-    context_frame_t *context;
-};
-
-typedef struct pcb {
-    int PID;
-    process_state_enum_t state;
-    // int parent_pid; // Not required for our kernel
-    struct CPU cpu_state; // CPU context part 1: IP, stack, registers, process flags
-    struct pcb *next;
-} pcb_t;
-
 typedef struct context_frame {
     unsigned long edi;
     unsigned long esi;
@@ -76,6 +63,19 @@ typedef struct context_frame {
     unsigned long iret_cs;
     unsigned long eflags;
 } context_frame_t;
+
+// Is our context our CPU state as well ??
+struct CPU {
+    context_frame_t *context;
+};
+
+typedef struct pcb {
+    int PID;
+    process_state_enum_t state;
+    // int parent_pid; // Not required for our kernel
+    struct CPU cpu_state; // CPU context part 1: IP, stack, registers, process flags
+    struct pcb *next;
+} pcb_t;
 
 extern void kmeminit(void);
 extern void *kmalloc(size_t size);
