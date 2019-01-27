@@ -45,7 +45,7 @@ UOBJ = mem.o disp.o ctsw.o syscall.o create.o user.o msg.o sleep.o signal.o
 #Add your sources here
 MY_OBJ = pcb.o
 
-
+pcb.o: ../c/pcb.c ../h/xeroskernel.h ../h/xeroslib.h
 # Don't modiy any of this unless you are really sure
 all: xeros 
 
