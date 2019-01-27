@@ -98,5 +98,5 @@ extern void sysstop(void);
 
 // pcb.c
 extern void initpcbtable(void);
-extern int dequeuepcb(process_state_enum_t state)；
+extern int dequeuepcb(process_state_enum_t state);
 #endif
