@@ -35,7 +35,7 @@ int checkLinkedListLength(void* head) {
    kprintf("^^^^^^^ cur : %d ^^^^^^^^^", cur);
    int count = 0;
    while(cur != NULL) {
-       cur = cur -> next;
+       cur = (*cur).next;
        kprintf("\n ajjjjjsslskajdldkj: %d", cur -> next);
        count++;
    }
