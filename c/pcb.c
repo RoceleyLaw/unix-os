@@ -15,23 +15,17 @@ extern void initpcbtable() {
     size_t pcbtable_size = sizeof(pcb_table) / sizeof (pcb_t);
     kprintf("/n ##### pcb table size: %d ####### /n", pcbtable_size);
 
-    pcb_t *cur = stopped_queue;
+    stopped_queue = &pcb_table;
     for(int i = 0; i < pcbtable_size; i++) {
         // initialize the pcb table
         pcb_table[i].PID = i + 1;
         pcb_table[i].state = STOPPED;
         // next would only be used for queue
         // initialize the queue
-        cur -> cur  = &pcb_table[i];
-        cur -> PID = pcb_table[i].PID;
-        cur -> state = STOPPED;
-        cur -> next = &pcb_table + sizeof(pcb_t);
-        cur = cur -> next;
+        pcb_table[i].next = (pcb_t *)(&(pcb_table[i]));
     }
     int size = checkLinkedListLength(stopped_queue);
-    kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=>stopped queue: %d, PID: %d, cur: %d ^^",stopped_queue, cur -> PID, cur);
-    // Avoid dangling ptr
-    cur = NULL;
+    kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=>size: %d ^^", size);
 }
 
 int checkLinkedListLength(void* head) {
