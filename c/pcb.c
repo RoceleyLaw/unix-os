@@ -28,21 +28,10 @@ extern void initpcbtable() {
 
 int checkLinkedListLength(void* head) {
     pcb_t *cur = head; 
-   // cur = memSlot;
-
-//    if (cur) {
-//        kprintf("\n ==== The linked list addr is: %d, size is: %d ==== \n ", cur, cur -> size);
-//    } else {
-//        kprintf("\n ==== The linked list addr is: %d, size is 0 ", cur);
-//        return 0;
-//    }
    int count = 0;
    while(!cur) {
-       kprintf("keep iterating");
        cur = cur -> next;
        count++;
-       kprintf("\n ==== The linked list addr is: %d , size is: %d ==== \n ", cur, cur -> size);
    }
-   kprintf("\n ==== The linked list size is: %d ==== \n ", count);
    return count;
 }
