@@ -16,6 +16,7 @@ extern void initpcbtable() {
     kprintf("/n ##### pcb table size: %d ####### /n", pcbtable_size);
 
     stopped_queue = &pcb_table[0];
+    kprintf("\n stopped_q: %d ", stopped_queue);
     for(int i = 0; i < pcbtable_size; i++) {
         // initialize the pcb table
         pcb_table[i].PID = i + 1;
@@ -23,14 +24,15 @@ extern void initpcbtable() {
         // next would only be used for queue
         // initialize the queue
         pcb_table[i].next = (pcb_t *)(&pcb_table[i+1]);
-        kprintf("\n AHHHHHHHHH : %d",  &pcb_table[i+1]);
+        // kprintf("\n AHHHHHHHHH : %d",  &pcb_table[i+1]);
     }
     int size = checkLinkedListLength(stopped_queue);
-    kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=>size: %d ^^", size);
+    kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=>size: %d ^^", stopped_queue);
 }
 
 int checkLinkedListLength(void* head) {
-    pcb_t *cur = head; 
+   pcb_t *cur = head; 
+   kprintf("^^^^^^^ cur : %d ^^^^^^^^^", cur);
    int count = 0;
    while(!cur) {
        cur = cur -> next;
