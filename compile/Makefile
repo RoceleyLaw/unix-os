@@ -89,4 +89,6 @@ sleep.o: ../c/sleep.c ../h/xeroskernel.h ../h/xeroslib.h
 signal.o: ../c/signal.c ../h/xeroskernel.h ../h/xeroslib.h
 
 # my new added c file
+${MY_OBJ}: 
+	${CC} ${CFLAGS} ../c/`basename $@ .o`.[c]
 pcb.o: ../c/pcb.c ../h/xeroskernel.h ../h/xeroslib.h
