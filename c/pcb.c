@@ -34,7 +34,7 @@ int checkLinkedListLength(void* head) {
    pcb_t *cur = head; 
    kprintf("^^^^^^^ cur : %d ^^^^^^^^^", cur);
    int count = 0;
-   while(!cur) {
+   while(cur != NULL) {
        cur = cur -> next;
        kprintf("\n ajjjjjsslskajdldkj: %d", cur -> next);
        count++;
