@@ -18,6 +18,7 @@ extern void initpcbtable() {
     for(int i = 0; i < pcbtable_size; i++) {
         cur -> PID = i + 1;
         cur -> state = STOPPED;
+        *(cur -> next) = pcb_table[i+1];
         cur = cur -> next;
     }
     int size = checkLinkedListLength(stopped_queue);
