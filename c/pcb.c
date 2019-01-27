@@ -17,10 +17,15 @@ extern void initpcbtable() {
 
     pcb_t *cur = stopped_queue;
     for(int i = 0; i < pcbtable_size; i++) {
+        // initialize the pcb table
         pcb_table[i].PID = i + 1;
         pcb_table[i].state = STOPPED;
         // next would only be used for queue
+        // initialize the queue
         cur = &pcb_table[i];
+        cur -> PID = pcb_table[i].PID;
+        cur -> state = STOPPED;
+        cur -> next = &pcb_table + sizeof(pcb_t);
         cur = cur -> next;
     }
     int size = checkLinkedListLength(stopped_queue);
