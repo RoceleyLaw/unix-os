@@ -76,6 +76,8 @@ typedef struct pcb {
     // struct CPU cpu_state; // CPU context part 1: IP, stack, registers, process flags
     // we only need to store the stack ptr. Context would be stored on top of process stack
     unsigned long *esp;
+    // store the address of cur pcb?
+    struct pcb *cur;
     struct pcb *next;
 } pcb_t;
 

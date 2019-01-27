@@ -22,14 +22,14 @@ extern void initpcbtable() {
         pcb_table[i].state = STOPPED;
         // next would only be used for queue
         // initialize the queue
-        cur = &pcb_table[i];
+        cur -> cur  = &pcb_table[i];
         cur -> PID = pcb_table[i].PID;
         cur -> state = STOPPED;
         cur -> next = &pcb_table + sizeof(pcb_t);
         cur = cur -> next;
     }
     int size = checkLinkedListLength(stopped_queue);
-    kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=> PID: %d, cur: %d ^^", cur -> PID, cur);
+    kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=>stopped queue: %d, PID: %d, cur: %d ^^",stopped_queue, cur -> PID, cur);
     // Avoid dangling ptr
     cur = NULL;
 }
