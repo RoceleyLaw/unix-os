@@ -43,8 +43,50 @@ void           set_evec(unsigned int xnum, unsigned long handler);
 
 
 /* Anything you add must be between the #define and this comment */
+typedef enum {
+    READY = 0,
+    RUNNING = 1,
+    BLOCKED,
+    STOPPED
+} process_state_enum_t;
+
+// Is our context our CPU state as well ??
+struct CPU {
+    context_frame_t *context;
+};
+
+typedef struct pcb {
+    int PID;
+    process_state_enum_t state;
+    // int parent_pid; // Not required for our kernel
+    struct CPU cpu_state; // CPU context part 1: IP, stack, registers, process flags
+    struct pcb *next;
+} pcb_t;
+
+typedef struct context_frame {
+    unsigned long edi;
+    unsigned long esi;
+    unsigned long ebp;
+    unsigned long esp;
+    unsigned long ebx;
+    unsigned long edx;
+    unsigned long ecx;
+    unsigned long eax;
+    unsigned long iret_eip;
+    unsigned long iret_cs;
+    unsigned long eflags;
+} context_frame_t;
+
 extern void kmeminit(void);
 extern void *kmalloc(size_t size);
 extern int kfree(void *ptr);
 int checkLinkedListSize(void);
+extern void dispatch();
+extern void contextswitch();
+extern void contextinit ();
+extern int create( void (*func)(void), int stack );
+
+extern unsigned int syscreate( void (*func)(void), int stack );
+extern void sysyield( void );
+extern void sysstop( void );
 #endif
