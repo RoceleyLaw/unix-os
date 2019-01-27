@@ -21,10 +21,12 @@ extern void initpcbtable() {
         // initialize the pcb table
         pcb_table[i].PID = i + 1;
         pcb_table[i].state = STOPPED;
-        // next would only be used for queue
+        // next would only be used for queue(linked list structure)
         // initialize the queue
-        pcb_table[i].next = (pcb_t *)(&pcb_table[i+1]);
-        // kprintf("\n AHHHHHHHHH : %d",  &pcb_table[i+1]);
+        // do not populate next of the last element
+        if (i == pcbtable_size - 1) {
+            pcb_table[i].next = (pcb_t *)(&pcb_table[i+1]);
+        }
     }
     int size = checkLinkedListLength(stopped_queue);
     kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=>size: %d ^^", size);
@@ -32,7 +34,6 @@ extern void initpcbtable() {
 
 int checkLinkedListLength(void* head) {
    pcb_t *cur = head; 
-   kprintf("^^^^^^^ cur : %d ^^^^^^^^^", cur);
    int count = 0;
    while(cur != NULL) {
        cur = (*cur).next;
@@ -40,4 +41,28 @@ int checkLinkedListLength(void* head) {
        count++;
    }
    return count;
+}
+
+extern int dequeuepcb(process_state_enum_t state) {
+    if (state == STOPPED) {
+        int size = checkLinkedListLength(stopped_queue);
+        kprintf("\n ^^^ remaining size: %d", size);
+        return dequeuepcb(&stopped_queue);
+    } else if (state == READY) {
+        return dequeuepcb(&ready_queue);
+    } else if (state == blocked_queue) {
+        return dequeuepcb(&blocked_queue);
+    } else {
+        return -1;
+    }
+    return -1;
+}
+
+int dequeuepcb(pcb_t *queue) {
+    pcb_t *cur = queue;
+    cur = (*cur).next;
+    (*queue).next = NULL;
+    queue = cur;
+    kprintf("\n ^^^^  dequeue PID: %d", (*queue).PID);
+    return (*queue).PID;
 }

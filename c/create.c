@@ -17,7 +17,7 @@ extern pcb_t *ready_queue;
     Return:
     - 1 on success
     - 0 on failure.*/
-extern int create( void (*func)(void), int stack) {
+extern int create(void (*func)(void), int stack) {
     if (!(unsigned long)(*func)) {
         kprintf("Error: invalid function address");
         return 0;
@@ -27,6 +27,9 @@ extern int create( void (*func)(void), int stack) {
         kprintf("Warning: invalid stack size");
         return 0;
     }
+
+    // initialize the process control block
+    dequeuepcb(STOPPED);
 
     return 0;
 }
