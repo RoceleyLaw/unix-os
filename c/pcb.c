@@ -22,7 +22,7 @@ extern void initpcbtable() {
         pcb_table[i].state = STOPPED;
         // next would only be used for queue
         // initialize the queue
-        pcb_table[i].next = (pcb_t *)(&(pcb_table[i]));
+        pcb_table[i].next = (pcb_t *)(pcb_table + ((i + 1) * sizeof(pcb_t)));
     }
     int size = checkLinkedListLength(stopped_queue);
     kprintf("\n ^^^^^ assuming dead process initialized in stoppped_queue=>size: %d ^^", size);
