@@ -30,7 +30,7 @@ extern int create(void (*func)(void), int stack) {
 
     // initialize the process control block
     pcb_t* unused = dequeuepcb(STOPPED);
-    kprintf("\n UNUSED", unused); 
+    unused = dequeuepcb(STOPPED);
 
     return 0;
 }
