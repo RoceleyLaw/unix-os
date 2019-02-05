@@ -54,13 +54,13 @@ extern int create(void (*func)(void), int stack) {
     context_frame_t* new_ctf = (context_frame_t*) tempEsp;
     new_ctf -> eflags = 0;
     new_ctf->iret_cs = getCS();
-    new_ctf->iret_eip = &func;
+    new_ctf->iret_eip = func;
     new_ctf->eax = 0;
     new_ctf->ecx = 0;
     new_ctf->edx = 0;
     new_ctf->ebx = 0;  
-    new_ctf->esp = tempEsp;
-    new_ctf->ebp = tempEsp;
+    new_ctf->esp = (unsigned long)tempEsp;
+    new_ctf->ebp = (unsigned long)tempEsp;
     new_ctf->esi = 0; 
     new_ctf->edi = 0;
     
