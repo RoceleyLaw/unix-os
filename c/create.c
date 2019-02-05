@@ -51,18 +51,18 @@ extern int create(void (*func)(void), int stack) {
     //TODO: !!!!!!!!!!!!!!!! (Fill in eflags!)
     kprintf("\ntempEsp: %d", tempEsp);
     //initialize the new context frame value
-    context_frame_t* new_ctf = (context_frame_t*) tempEsp;
-    new_ctf -> eflags = 0;
-    new_ctf->iret_cs = getCS();
-    new_ctf->iret_eip = func;
-    new_ctf->eax = 0;
-    new_ctf->ecx = 0;
-    new_ctf->edx = 0;
-    new_ctf->ebx = 0;  
-    new_ctf->esp = (unsigned long)tempEsp;
-    new_ctf->ebp = (unsigned long)tempEsp;
-    new_ctf->esi = 0; 
-    new_ctf->edi = 0;
+    // context_frame_t* new_ctf = (context_frame_t*) tempEsp;
+    // new_ctf -> eflags = 0;
+    // new_ctf->iret_cs = getCS();
+    // new_ctf->iret_eip = func;
+    // new_ctf->eax = 0;
+    // new_ctf->ecx = 0;
+    // new_ctf->edx = 0;
+    // new_ctf->ebx = 0;  
+    // new_ctf->esp = (unsigned long)tempEsp;
+    // new_ctf->ebp = (unsigned long)tempEsp;
+    // new_ctf->esi = 0; 
+    // new_ctf->edi = 0;
     
     // // Assign the context frame value
     // context_frame_t* ctf_bottom = (context_frame_t*)tempEsp;
@@ -80,19 +80,19 @@ extern int create(void (*func)(void), int stack) {
     // ctf_bottom -> edi = new_ctf.edi;
 
                  
-    // *(long*)(tempEsp)   = 0;                   //edi
-    // *(long*)(tempEsp+4) = 0;                   //esi
-    // *(long*)(tempEsp+8) = tempEsp;             //ebp
-    // *(long*)(tempEsp+12) = tempEsp;            //esp
-    // *(long*)(tempEsp+16) = 0;                  //ebx
-    // *(long*)(tempEsp+20) = 0;                  //edx
-    // *(long*)(tempEsp+24) = 0;                  //ecx
-    // *(long*)(tempEsp+28) = 0;                  //eax
-    // *(long*)(tempEsp+32) = func;               //eip
-    // *(long*)(tempEsp+36) = getCS();;           //cs
-    // *(long*)(tempEsp+40) = 0;                  //edi
+    *(long*)(tempEsp)   = 0;                   //edi
+    *(long*)(tempEsp+4) = 0;                   //esi
+    *(long*)(tempEsp+8) = tempEsp;             //ebp
+    *(long*)(tempEsp+12) = tempEsp;            //esp
+    *(long*)(tempEsp+16) = 0;                  //ebx
+    *(long*)(tempEsp+20) = 0;                  //edx
+    *(long*)(tempEsp+24) = 0;                  //ecx
+    *(long*)(tempEsp+28) = 0;                  //eax
+    *(long*)(tempEsp+32) = func;               //eip
+    *(long*)(tempEsp+36) = getCS();;           //cs
+    *(long*)(tempEsp+40) = 0;                  //edi
     for(int i = 0; i < 11; i++){
-        kprintf("new_ctf : %d",  *(unsigned long*)(new_ctf + i*4));
+        kprintf("new_ctf : %d",  *(unsigned long*)(tempEsp + i*4));
     }
     for(;;);
     new_pcb -> state = READY;
