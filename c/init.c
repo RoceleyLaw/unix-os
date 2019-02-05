@@ -36,10 +36,10 @@ void initproc( void )				/* The beginning */
   int b = -17;
   int i; 
 
-  kprintf( "\n\nCPSC 415, 2018W2 \n32 Bit Xeros -21.0.0 - even before beta \nLocated at: %x to %x\n", 
-	   &entry, &end); 
+  // kprintf( "\n\nCPSC 415, 2018W2 \n32 Bit Xeros -21.0.0 - even before beta \nLocated at: %x to %x\n", 
+	//    &entry, &end); 
   
-  kprintf("Some sample output to illustrate different types of printing\n\n");
+  // kprintf("Some sample output to illustrate different types of printing\n\n");
 
   /* A busy wait to pause things on the screen, Change the value used 
      in the termination condition to control the pause
@@ -48,14 +48,14 @@ void initproc( void )				/* The beginning */
   for (i = 0; i < 3000000; i++);
 
   /* Build a string to print) */
-  sprintf(str, 
-      "This is the number -17 when printed signed %d unsigned %u hex %x and a string %s.\n      Sample printing of 1024 in signed %d, unsigned %u and hex %x.",
-	  b, b, b, "Hello", a, a, a);
+  // sprintf(str, 
+  //     "This is the number -17 when printed signed %d unsigned %u hex %x and a string %s.\n      Sample printing of 1024 in signed %d, unsigned %u and hex %x.",
+	//   b, b, b, "Hello", a, a, a);
 
   /* Print the string */
 
-  kprintf("\n\nThe %dstring is: \"%s\"\n\nThe formula is %d + %d = %d.\n\n\n", 
-	  a, str, a, b, a + b);
+  // kprintf("\n\nThe %dstring is: \"%s\"\n\nThe formula is %d + %d = %d.\n\n\n", 
+	//   a, str, a, b, a + b);
 
   kprintf("\n\n ==== The max address is: %d ==== \n\n\n ", maxaddr);
 

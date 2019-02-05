@@ -131,7 +131,7 @@ extern void *kmalloc(size_t size) {
     
     // ASSERTION: amnt allocated must be a multiple of 16
     // assert(amnt % 16 == 0);
-    //// kprintf("\n Actual Memory allocated :%d \n", amnt);
+    kprintf("\n Actual Memory allocated :%d \n", amnt);
     
     // if the size <= 0, ignore the request
     if (amnt <= 0) {
