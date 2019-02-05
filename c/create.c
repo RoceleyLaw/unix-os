@@ -9,17 +9,6 @@
 extern pcb_t *stopped_queue;
 extern pcb_t *ready_queue;
 int SAFETY_MARGIN = 16;
-extern struct memHeader {
-// size - the size of the free slot + header
-  unsigned long size;   // - 4 bytes
-  struct memHeader *prev; // - 4 bytes
-  struct memHeader *next; // - 4 bytes
-  char *sanityCheck; // - 4 bytes; 0 for freed space; 1 for allocated space
-  
-  // Used to track the address of the start of the actual space of the Node:
-  // addr + sizeof(struct memHeader) (zero sized array trick)
-  unsigned char dataStart[0];
-};
 /* The kernel uses this function to create new processes 
     and add them to the ready queue.  
     Parameters: 
@@ -60,7 +49,6 @@ extern int create(void (*func)(void), int stack) {
     //Initialize the context frame
     
     //TODO: !!!!!!!!!!!!!!!! (Fill in eflags!)
-    struct memHeader* getHeader = (struct memHeader*)((unsigned long)new_memory - sizeof(struct memHeader));
     kprintf("\ngetCS value: %d", getCS());
     *(long*)tempEsp = 0;                    //eflags
     *(long*)(tempEsp+4) = getCS();          //cs
@@ -69,8 +57,8 @@ extern int create(void (*func)(void), int stack) {
     *(long*)(tempEsp+16) = 0;               //ecx
     *(long*)(tempEsp+20) = 0;               //edx
     *(long*)(tempEsp+24) = 0;               //ebx
-    *(long*)(tempEsp+28) = new_memory + (getHeader -> size) + sizeof(struct memHeader); //esp
-    *(long*)(tempEsp+32) = new_memory;      //ebp
+    *(long*)(tempEsp+28) = tempEsp; //esp
+    *(long*)(tempEsp+32) = tempEsp;      //ebp
     *(long*)(tempEsp+36) = 0;               //esi
     *(long*)(tempEsp+40) = 0;               //edi
 
