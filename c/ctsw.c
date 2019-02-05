@@ -9,13 +9,12 @@
    assembly language conventions.
 */
 
+ void _ISREntryPoint();
  void printContext(unsigned long context_frame){
      for(int i = 0; i < 11; i++){
          kprintf("%d\n",  *(unsigned long*)(context_frame + i*4));
      }
  }
-
-void _ISREntryPoint();
 static void *k_stack;
 static unsigned long ESP;
 extern void contextinit () {
