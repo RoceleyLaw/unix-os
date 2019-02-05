@@ -65,11 +65,14 @@ void initproc( void )				/* The beginning */
 
   /* Add your code below this line and before next comment */
   kmeminit();
-  // initialize pcb table
-  initpcbtable();
+  // initialize dispatcher
+  dispInit();
+  // initialize context switcher
+  contextinit ();
   // Root proc
   kprintf("\n for root process.... ");
   create(root, 1024);
+  // dispatch();
 
   // create(NULL, 0);
   // create(NULL, 0);

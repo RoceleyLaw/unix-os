@@ -1,6 +1,5 @@
 /* disp.c : dispatcher
  */
-
 #include <xeroskernel.h>
 extern pcb_t *stopped_queue_tail;
 extern pcb_t *ready_queue_tail;
