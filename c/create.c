@@ -49,7 +49,7 @@ extern int create(void (*func)(void), int stack) {
     //Initialize the context frame
     
     //TODO: !!!!!!!!!!!!!!!! (Fill in eflags!)
-    kprintf("\ngetCS value: %d", getCS());
+    kprintf("\ntempEsp: %d", tempEsp);
     //initialize the new context frame value
     context_frame_t* new_ctf = (context_frame_t*) tempEsp;
     new_ctf -> eflags = 0;
