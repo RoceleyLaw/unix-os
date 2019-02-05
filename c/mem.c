@@ -192,12 +192,13 @@ extern void *kmalloc(size_t size) {
             
             // Clean up the pointers to avoid memory leaks
             tmp -> next = NULL;
-            // if the head of the freelist has been (partially) filled, move the head of the list
-            if (!(tmp -> prev)) {
-                memSlot = cur;
-            }
-            ////kprintf("the adjusted pointer value: %d", memSlot);
             tmp -> prev = NULL;
+            // if the head of the freelist has been (partially) filled, move the head of the list
+            if (cur -> prev == NULL) {
+                memSlot = cur;
+                kprintf("\n reset memSlot by spliting big mem chunk: %d",memSlot);
+            }
+            kprintf("the adjusted pointer value: %d", memSlot);
             // tmp = NULL; 
             return tmp -> dataStart;
         } else {
