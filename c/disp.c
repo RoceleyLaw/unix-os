@@ -22,7 +22,8 @@ extern void dispatch() {
    and returns an index or a pointer to its process control block. */
 pcb_t *next() {
     // TODO: remove the process, not just dequeue the pcb.
-    return dequeuepcb(READY);
+    pcb_t* next_pcb = dequeuepcb(READY);
+    return next_pcb;
 }
 
 /*  takes an index or pointer to a process control block 
