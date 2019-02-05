@@ -65,7 +65,8 @@ extern int create(void (*func)(void), int stack) {
     new_ctf.edi = 0;
     
     // Assign the context frame value
-    context_frame_t* ctf_bottom = (context_frame_t*)(unsigned long)tempEsp;
+    context_frame_t* ctf_bottom = (context_frame_t*)tempEsp;
+    kprintf("TEMP ESP: %d", ctf_bottom);
     ctf_bottom -> eflags = new_ctf.eflags;
     ctf_bottom -> iret_cs = new_ctf.iret_cs;
     ctf_bottom -> iret_eip = new_ctf.iret_eip;
