@@ -78,7 +78,7 @@ void initproc( void )				/* The beginning */
   /* Add all of your code before this comment and after the previous comment */
   /* This code should never be reached after you are done */
   // kprintf("\n\nWhen your  kernel is working properly ");
-  // kprintf("this line should never be printed!\n");
+  kprintf("this line should never be printed!\n");
   for(;;) ; /* loop forever */
 }
 
