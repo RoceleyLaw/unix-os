@@ -72,7 +72,7 @@ void initproc( void )				/* The beginning */
   // Root proc
   kprintf("\n for root process.... ");
   create(root, 8192);
-  // dispatch();
+  dispatch();
 
   // create(NULL, 0);
   // create(NULL, 0);
