@@ -164,7 +164,7 @@ extern void *kmalloc(size_t size) {
             // keep the original size (including the header size)
             unsigned long originalSize = cur -> size;
             // resize the current node
-            // kprintf("\n old address of pointer %d, old size: %d \n", cur, cur -> size);
+            kprintf("\n old address of pointer %d, old size: %d \n", cur, cur -> size);
             cur -> size = amnt;
             // Any potential risk for setting sanityCheck as a pointer pointing to the start of header?
             /////// sanity check here ////////
@@ -172,10 +172,10 @@ extern void *kmalloc(size_t size) {
             // seperate the rest as another chunk
             // pointer reset to the new address
             cur = (struct memHeader *)((unsigned long)cur + amnt); /// pay attention to this
-            // kprintf("------ cur pointer value after redirect to next chunk------: %d", cur);
+            kprintf("------ cur pointer value after redirect to next chunk------: %d", cur);
             // Size of the free chunk + header after allocation
             cur -> size = originalSize - amnt;
-            // kprintf("\n new address of pointer %d, new size: %d \n", cur, cur -> size);
+            kprintf("\n new address of pointer %d, new size: %d \n", cur, cur -> size);
             ////kprintf("\n sanity check pointer value: %d, address of header: %d \n", cur -> sanityCheck, cur);
             
             cur -> next = tmp -> next;
