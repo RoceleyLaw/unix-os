@@ -10,16 +10,14 @@
 */
 
  void _ISREntryPoint();
- void printContext(unsigned long context_frame){
-     for(int i = 0; i < 11; i++){
-         kprintf("%d\n",  *(unsigned long*)(context_frame + i*4));
-     }
- }
+
 static void *k_stack;
 static unsigned long ESP;
+void printContext(unsigned long context_frame);
 extern void contextinit () {
     set_evec(SYS_CALL_INT_NUM, _ISREntryPoint);
 }
+
 extern int contextswitch(pcb_t *p) {
 ESP = p -> esp;
 printContext(ESP);
@@ -50,3 +48,9 @@ kprintf("\n the  value of stack ptr: %d", ESP);
 
 
 }
+
+ void printContext(unsigned long context_frame){
+     for(int i = 0; i < 11; i++){
+         kprintf("%d\n",  *(unsigned long*)(context_frame + i*4));
+     }
+ }
