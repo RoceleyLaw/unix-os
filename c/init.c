@@ -68,6 +68,7 @@ void initproc( void )				/* The beginning */
   // initialize pcb table
   initpcbtable();
   // Root proc
+  kprintf("\n for root process.... ");
   create(root, 1024);
 
   // create(NULL, 0);
@@ -76,8 +77,8 @@ void initproc( void )				/* The beginning */
   for (i = 0; i < 2000000; i++);
   /* Add all of your code before this comment and after the previous comment */
   /* This code should never be reached after you are done */
-  kprintf("\n\nWhen your  kernel is working properly ");
-  kprintf("this line should never be printed!\n");
+  // kprintf("\n\nWhen your  kernel is working properly ");
+  // kprintf("this line should never be printed!\n");
   for(;;) ; /* loop forever */
 }
 

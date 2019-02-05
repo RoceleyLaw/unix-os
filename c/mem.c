@@ -24,7 +24,7 @@ struct memHeader {
   unsigned long size;   // - 4 bytes
   struct memHeader *prev; // - 4 bytes
   struct memHeader *next; // - 4 bytes
-  char *sanityCheck; // - 4 bytes
+  char *sanityCheck; // - 4 bytes; 0 for freed space; 1 for allocated space
   
   // Used to track the address of the start of the actual space of the Node:
   // addr + sizeof(struct memHeader) (zero sized array trick)
@@ -50,7 +50,7 @@ extern void kmeminit(void) {
     // Free blocks would have sanityCheck value NULL
     memSlot -> sanityCheck = NULL;
 
-    kprintf("=== free memory chunk 1 size: %d; ==", memSlot -> size);
+    /////kprintf("=== free memory chunk 1 size: %d; ==", memSlot -> size);
     // pointing to the free space after skipping the hole
     memSlot -> next = (struct memHeader *) HOLEEND; // pointer = address??
     // set the next node's prev pointer
@@ -66,7 +66,7 @@ extern void kmeminit(void) {
     memSlot -> sanityCheck = NULL;
     // memSlot points to the head, which refers to the start of the freemem
     memSlot = (struct memHeader *)(freemem + (freemem % 16));
-    kprintf("\n ==== The memSlot pointer value is: %d ==== \n ", memSlot);
+    kprintf("\n ==== The memSlot pointer value is: %d, freemem value: %d ==== \n ", memSlot, freemem);
     
    
     /* Called to debug the function. Should never be called here*/
@@ -77,7 +77,7 @@ extern void kmeminit(void) {
     void* mem3 = kmalloc(16);
     // kprintf ("Calling mem3 allocation...: %d", mem3);
     void* mem4 = kmalloc(620300);
-    kprintf ("Calling free2 allocation...: %d", mem2);
+    ////kprintf ("Calling free2 allocation...: %d", mem2);
     int freed2 = kfree(mem3);
     int free4 = kfree(mem2);
     // free the same spot twice to check sanitycheck value
@@ -110,10 +110,10 @@ extern int checkLinkedListSize(void* head) {
 //    }
    int count = 0;
    while(!cur) {
-       kprintf("keep iterating");
+       // kprintf("keep iterating");
        cur = cur -> next;
        count++;
-       kprintf("\n ==== The linked list addr is: %d , size is: %d ==== \n ", cur, cur -> size);
+       // kprintf("\n ==== The linked list addr is: %d , size is: %d ==== \n ", cur, cur -> size);
    }
    kprintf("\n ==== The linked list size is: %d ==== \n ", count);
    return count;
@@ -122,7 +122,7 @@ extern int checkLinkedListSize(void* head) {
 extern void *kmalloc(size_t size) {
     // ASSERTION: make sure ptr is pointer to an address align to 16
     // assert((unsigned long) memSlot % 16 == 0);
-    kprintf("\n memSlot :%d \n", memSlot);
+    // //kprintf("\n memSlot :%d \n", memSlot);
     struct memHeader *cur = memSlot;
     struct memHeader *tmp = memSlot;
     unsigned long amnt = (size) / 16 + ((size % 16)? 1:0);
@@ -131,7 +131,7 @@ extern void *kmalloc(size_t size) {
     
     // ASSERTION: amnt allocated must be a multiple of 16
     // assert(amnt % 16 == 0);
-    kprintf("\n Actual Memory allocated :%d \n", amnt);
+    //// kprintf("\n Actual Memory allocated :%d \n", amnt);
     
     // if the size <= 0, ignore the request
     if (amnt <= 0) {
@@ -176,7 +176,7 @@ extern void *kmalloc(size_t size) {
             // Size of the free chunk + header after allocation
             cur -> size = originalSize - amnt;
             // kprintf("\n new address of pointer %d, new size: %d \n", cur, cur -> size);
-            kprintf("\n sanity check pointer value: %d, address of header: %d \n", cur -> sanityCheck, cur);
+            ////kprintf("\n sanity check pointer value: %d, address of header: %d \n", cur -> sanityCheck, cur);
             
             cur -> next = tmp -> next;
             cur -> prev = tmp -> prev;
@@ -196,7 +196,7 @@ extern void *kmalloc(size_t size) {
             if (!(tmp -> prev)) {
                 memSlot = cur;
             }
-            kprintf("the adjusted pointer value: %d", memSlot);
+            ////kprintf("the adjusted pointer value: %d", memSlot);
             tmp -> prev = NULL;
             // tmp = NULL; 
             return tmp -> dataStart;
@@ -204,7 +204,7 @@ extern void *kmalloc(size_t size) {
             // if current node(free space) is too small, traverse the linked list
             // first-fit, not need to be best fit
             cur = cur -> next; 
-            kprintf("------ cur pointer value ------: %d", cur);
+            ////kprintf("------ cur pointer value ------: %d", cur);
         }
     }
     kprintf("Warning: malloc failed due to insufficient memory space");

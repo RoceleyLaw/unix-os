@@ -33,7 +33,7 @@ extern int create(void (*func)(void), int stack) {
     //malloc new memory for our new process
     void* new_memory = kmalloc((size_t) stack);
     //set the allocated space and the size of the space to pcb
-    new_pcb->buff = new_memory;
+    new_pcb -> buff = new_memory;
 
     unsigned long amnt = ((stack) / 16 + ((stack % 16)? 1:0))*16;
 
@@ -44,7 +44,7 @@ extern int create(void (*func)(void), int stack) {
     // Stack pointer starts here 
     void* tempEsp = new_memory + amnt - SAFETY_MARGIN - sizeof(context_frame_t);
     new_pcb -> esp = tempEsp;
-    kprintf("\nnew_memory: %d, tempEsp: %d", new_memory, tempEsp);
+    // // kprintf("\nnew_memory: %d, tempEsp: %d", new_memory, tempEsp);
 
     //Initialize the context frame
     //TODO: !!!!!!!!!!!!!!!! (Fill in eflags!)
