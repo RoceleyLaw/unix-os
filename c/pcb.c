@@ -83,8 +83,8 @@ extern pcb_t *dequeuepcb(process_state_enum_t state) {
         blocked_queue_head = blocked_queue_head -> bq_next;
         cur -> bq_next = NULL;
         // int size = checkLinkedListLength(blocked_queue);
-        kprintf("\n ^^^ remaining size: %d", size);
-        kprintf("\n ^^^^  dequeue PID: %d", cur -> PID);
+        // kprintf("\n ^^^ remaining size: %d", size);
+        // kprintf("\n ^^^^  dequeue PID: %d", cur -> PID);
         if (blocked_queue_head == blocked_queue_tail) {
             blocked_queue_tail = NULL;  
         }
