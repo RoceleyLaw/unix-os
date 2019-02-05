@@ -50,17 +50,46 @@ extern int create(void (*func)(void), int stack) {
     
     //TODO: !!!!!!!!!!!!!!!! (Fill in eflags!)
     kprintf("\ngetCS value: %d", getCS());
-    *(long*)tempEsp = 0;                    //eflags
-    *(long*)(tempEsp+4) = getCS();          //cs
-    *(long*)(tempEsp+8) = func;             //eip
-    *(long*)(tempEsp+12) = 0;               //eax
-    *(long*)(tempEsp+16) = 0;               //ecx
-    *(long*)(tempEsp+20) = 0;               //edx
-    *(long*)(tempEsp+24) = 0;               //ebx
-    *(long*)(tempEsp+28) = tempEsp; //esp
-    *(long*)(tempEsp+32) = tempEsp;      //ebp
-    *(long*)(tempEsp+36) = 0;               //esi
-    *(long*)(tempEsp+40) = 0;               //edi
+    // initialize the new context frame value
+    context_frame_t new_ctf;
+    new_ctf.eflags = 0;
+    new_ctf.iret_cs = getCS();
+    new_ctf.iret_eip = &func;
+    new_ctf.eax = 0;
+    new_ctf.ecx = 0;
+    new_ctf.edx = 0;
+    new_ctf.ebx = 0;  
+    new_ctf.esp = tempEsp;
+    new_ctf.ebp = tempEsp;
+    new_ctf.esi = 0; 
+    new_ctf.edi = 0;
+    
+    // Assign the context frame value
+    context_frame_t* ctf_bottom = (context_frame_t*)((unsigned long)tempEsp + sizeof(context_frame_t));
+    ctf_bottom -> eflags = new_ctf.eflags;
+    ctf_bottom -> iret_cs = new_ctf.iret_cs;
+    ctf_bottom -> iret_eip = new_ctf.iret_eip;
+    ctf_bottom -> eax = new_ctf.eax;
+    ctf_bottom -> ecx = new_ctf.ecx;
+    ctf_bottom -> edx = new_ctf.edx;
+    ctf_bottom -> ebx = new_ctf.ebx;
+    ctf_bottom -> esp = new_ctf.esp;
+    ctf_bottom -> ebp = new_ctf.ebp;
+    ctf_bottom -> esi = new_ctf.esi;
+    ctf_bottom -> edi = new_ctf.edi;
+
+                 
+    // //eflags
+    // *(long*)(tempEsp+4) = getCS();          //cs
+    // *(long*)(tempEsp+8) = func;             //eip
+    // *(long*)(tempEsp+12) = 0;               //eax
+    // *(long*)(tempEsp+16) = 0;               //ecx
+    // *(long*)(tempEsp+20) = 0;               //edx
+    // *(long*)(tempEsp+24) = 0;               //ebx
+    // *(long*)(tempEsp+28) = tempEsp; //esp
+    // *(long*)(tempEsp+32) = tempEsp;      //ebp
+    // *(long*)(tempEsp+36) = 0;               //esi
+    // *(long*)(tempEsp+40) = 0;               //edi
 
     new_pcb -> state = READY;
     enqueuepcb(READY, new_pcb);
