@@ -13,7 +13,7 @@ extern void root(void) {
     //TODO: stack size is set randomly as 100, need to think about it
     // syscreate(&producer, 100);
     // syscreate(&consumer, 100);
-    for (;;) sysyield();
+    // for (;;) sysyield();
 }
 
 /* Producer */
