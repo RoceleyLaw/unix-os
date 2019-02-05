@@ -50,25 +50,25 @@ extern void dispatch() {
         // dispatcher is working for the kernel, which means when we call dispatch,
         // we are at kernel mode
         int request = contextswitch(process);
-        switch (request)
-        {
-            case CREATE:
-            // TODO: not correct here, create() in create.c is not returning any ptr
-                // pcb_t* new_proc = create(NULL, 0);
-                // enqueuepcb(READY, new_proc);
-                break;
-            case YIELD:
-                // TODO: think of how to get current proc info
-                ready(process);
-                process = next();
-                break;
-            case STOP:
-                cleanup(process); 
-                process = next();
-                break;
-            default:
-                break;
-        }
+        // switch (request)
+        // {
+        //     case CREATE:
+        //     // TODO: not correct here, create() in create.c is not returning any ptr
+        //         // pcb_t* new_proc = create(NULL, 0);
+        //         // enqueuepcb(READY, new_proc);
+        //         break;
+        //     case YIELD:
+        //         // TODO: think of how to get current proc info
+        //         ready(process);
+        //         process = next();
+        //         break;
+        //     case STOP:
+        //         cleanup(process); 
+        //         process = next();
+        //         break;
+        //     default:
+        //         break;
+        // }
     }
 
 }
