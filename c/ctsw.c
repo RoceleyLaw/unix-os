@@ -9,8 +9,7 @@
    assembly language conventions.
 */
 
- void _ISREntryPoint();
-
+void _ISREntryPoint();
 static void *k_stack;
 static unsigned long ESP;
 extern void contextinit () {
