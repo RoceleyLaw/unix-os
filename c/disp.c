@@ -14,7 +14,7 @@ extern void dispatch() {
     //     case( STOP ): cleanup( process ); process = next(); free the stack space and PCB; break; }
     pcb_t* new_proc = &pcb_table[0];
     enqueuepcb(READY,&pcb_table[0]);
-    pcb_t* process = next();
+    pcb_t* process = (pcb_t*) next();
     kprintf("NEXT PROCESS: %d", (int)process);
 }
 
@@ -22,7 +22,7 @@ extern void dispatch() {
    and returns an index or a pointer to its process control block. */
 pcb_t *next() {
     // TODO: remove the process, not just dequeue the pcb.
-    pcb_t* next_pcb = dequeuepcb(READY);
+    pcb_t *next_pcb = dequeuepcb(READY);
     return next_pcb;
 }
 
