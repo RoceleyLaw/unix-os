@@ -21,7 +21,7 @@ ESP = p -> esp;
 for(int i = 0; i < 11; i++){
     kprintf("11223344 : %d",  *(unsigned long*)(ESP + i*4));
 }
-for(int i=0; i<100000000000; i++);
+for(int i=0; i<1000000; i++);
 kprintf("\n the  value of stack ptr: %d", ESP);
   __asm __volatile( " \
     pushf  \n\
