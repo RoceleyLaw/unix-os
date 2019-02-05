@@ -45,7 +45,7 @@ extern void dispatch() {
     //     case( YIELD ): ready( process ); process = next(); break;
     //     case( STOP ): cleanup( process ); process = next(); free the stack space and PCB; break; }
     pcb_t* process = next();
-    kprintf("WHAT's our next process??")
+    kprintf("WHAT's our next process??");
     // while (1) {
         // todo: when would contextswitcher returns? 
         // dispatcher is working for the kernel, which means when we call dispatch,
