@@ -71,7 +71,7 @@ void initproc( void )				/* The beginning */
   contextinit ();
   // Root proc
   kprintf("\n for root process.... ");
-  create(root, 1024);
+  create(root, 8192);
   dispatch();
 
   // create(NULL, 0);
