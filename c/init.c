@@ -67,9 +67,11 @@ void initproc( void )				/* The beginning */
   kmeminit();
   // initialize pcb table
   initpcbtable();
-  create(NULL, 0);
-  create(NULL, 0);
-  create(NULL, 0);
+  // Root proc
+  create(root, 1024);
+
+  // create(NULL, 0);
+  // create(NULL, 0);
 
   for (i = 0; i < 2000000; i++);
   /* Add all of your code before this comment and after the previous comment */
