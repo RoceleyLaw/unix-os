@@ -91,10 +91,10 @@ extern int create(void (*func)(void), int stack) {
     *(long*)(tempEsp+32) = func;               //eip
     *(long*)(tempEsp+36) = getCS();;           //cs
     *(long*)(tempEsp+40) = 0;                  //edi
-    for(int i = 0; i < 11; i++){
-        kprintf("new_ctf : %d",  *(unsigned long*)(tempEsp + i*4));
-    }
-    for(;;);
+    // for(int i = 0; i < 11; i++){
+    //     kprintf("new_ctf : %d",  *(unsigned long*)(tempEsp + i*4));
+    // }
+    //for(;;);
     new_pcb -> state = READY;
     enqueuepcb(READY, new_pcb);
     return 1;
