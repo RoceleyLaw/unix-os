@@ -50,6 +50,13 @@ typedef enum {
     STOPPED
 } process_state_enum_t;
 
+// system call request id for A1
+typedef enum {
+    CREATE = 1000,
+    YIELD = 1001,
+    STOP
+} request_id_enum_t;
+
 typedef struct context_frame {
     unsigned long edi;
     unsigned long esi;
@@ -76,6 +83,8 @@ typedef struct pcb {
     // struct CPU cpu_state; // CPU context part 1: IP, stack, registers, process flags
     // we only need to store the stack ptr. Context would be stored on top of process stack
     unsigned long *esp;
+    // ptr pointer the start of the stack
+    char *buff;
     // next ptr for blocking queue
     struct pcb *bq_next;
     // next ptr for stopped queue
@@ -91,10 +100,12 @@ extern void kmeminit(void);
 extern void *kmalloc(size_t size);
 extern int kfree(void *ptr);
 extern int checkLinkedListSize(void* head);
+// disp.c
+extern void dispInit();
 extern void dispatch();
 extern int contextswitch(pcb_t *p);
 extern void contextinit ();
-extern int create( void (*func)(void), int stack );
+extern int create(void (*func)(void), int stack);
 
 // syscall.c
 extern unsigned int syscreate( void (*func)(void), int stack );
@@ -103,5 +114,9 @@ extern void sysstop(void);
 
 // pcb.c
 extern void initpcbtable(void);
-extern int dequeuepcb(process_state_enum_t state);
+extern pcb_t* dequeuepcb(process_state_enum_t state);
+extern void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb);
+
+// user.c
+extern void root(void);
 #endif
