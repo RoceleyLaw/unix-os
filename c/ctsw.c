@@ -8,14 +8,23 @@
    compiler/assembler options or issue directives to permit usage of Intel's
    assembly language conventions.
 */
+
+ void printContext(unsigned long context_frame){
+     for(int i = 0; i < 11; i++){
+         kprintf("%d\n",  *(unsigned long*)(context_frame + i*4));
+     }
+ }
+
 void _ISREntryPoint();
 static void *k_stack;
-static unsigned long *ESP;
+static unsigned long ESP;
 extern void contextinit () {
     set_evec(SYS_CALL_INT_NUM, _ISREntryPoint);
 }
 extern int contextswitch(pcb_t *p) {
 ESP = p -> esp;
+printContext(ESP);
+for(;;);
 kprintf("\n the  value of stack ptr: %d", ESP);
   __asm __volatile( " \
     pushf  \n\
@@ -39,4 +48,6 @@ kprintf("\n the  value of stack ptr: %d", ESP);
  p -> esp = ESP;
 
  return 0;
+
+
 }
