@@ -18,15 +18,15 @@ int SAFETY_MARGIN = 16;
     - 1 on success
     - 0 on failure.*/
 extern int create(void (*func)(void), int stack) {
-    // if (!(unsigned long)(*func)) {
-    //     kprintf("Error: invalid function address");
-    //     return 0;
-    // }
+    if (!(unsigned long)(*func)) {
+        kprintf("Error: invalid function address");
+        return 0;
+    }
 
-    // if (stack <= 0) {
-    //     kprintf("Warning: invalid stack size");
-    //     return 0;
-    // }
+    if (stack <= 0) {
+        kprintf("Warning: invalid stack size");
+        return 0;
+    }
 
     // initialize the process control block
     pcb_t *new_pcb = dequeuepcb(STOPPED);
