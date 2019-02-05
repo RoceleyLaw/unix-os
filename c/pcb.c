@@ -71,7 +71,7 @@ extern pcb_t *dequeuepcb(process_state_enum_t state) {
         cur = ready_queue_head;
         ready_queue_head = ready_queue_head -> rq_next;
         cur -> rq_next = NULL;
-        // int size = checkLinkedListLength(ready_queue);
+        int size = checkLinkedListLength(ready_queue_head);
         kprintf("\n ^^^ remaining size: %d", size);
         kprintf("\n ^^^^  dequeue PID: %d", cur -> PID);
         if (ready_queue_head == ready_queue_tail) {
