@@ -14,6 +14,7 @@ static void *k_stack;
 static unsigned long ESP;
 static unsigned long ECX;
 static unsigned long EDX;
+extern int args[2];
 extern void contextinit () {
     set_evec(SYS_CALL_INT_NUM, _ISREntryPoint);
 }
