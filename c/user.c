@@ -6,7 +6,7 @@
 /* Your code goes here */
 /* user.c : User processes
  */
-
+void producer(void);
 /* Root process */
 void root(void) {
     kprintf("Hello world!\n");
