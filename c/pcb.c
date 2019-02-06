@@ -59,7 +59,7 @@ pcb_t *dequeuepcb(process_state_enum_t state) {
         cur = stopped_queue_head;
         stopped_queue_head = stopped_queue_head -> sq_next;
         cur -> sq_next = NULL;
-        int size = checkLinkedListLength(stopped_queue_head);
+        // int size = checkLinkedListLength(stopped_queue_head);
         // kprintf("\n ^^^STOPPED remaining size: %d", size);
         // kprintf("\n ^^^^STOPPED  dequeue PID: %d", cur -> PID);
         // if only one pcb
@@ -71,7 +71,7 @@ pcb_t *dequeuepcb(process_state_enum_t state) {
         cur = ready_queue_head;
         ready_queue_head = ready_queue_head -> rq_next;
         cur -> rq_next = NULL;
-        int size = checkLinkedListLength(ready_queue_head);
+        // int size = checkLinkedListLength(ready_queue_head);
         // kprintf("\n ^^^READY remaining size: %d", size);
         // kprintf("\n ^^^^READY  dequeue PID: %d", cur -> PID);
         if (ready_queue_head == ready_queue_tail) {
@@ -105,7 +105,7 @@ void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb) {
             stopped_queue_head = new_pcb;
             stopped_queue_tail = new_pcb;
         }
-        int size = checkLinkedListLength(stopped_queue_head);
+        // int size = checkLinkedListLength(stopped_queue_head);
         // kprintf("\n ^^^STOP enq sq remaining size: %d", size);
         // kprintf("\n ^^^^STOP  enq sq PID: %d", new_pcb -> PID);
     } else if (state == READY) {
@@ -116,7 +116,7 @@ void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb) {
             ready_queue_head = new_pcb;
             ready_queue_tail = new_pcb;
         }
-        int size = checkLinkedListLength(ready_queue_head);
+        // int size = checkLinkedListLength(ready_queue_head);
         // kprintf("\n ^^^READY enq rq remaining size: %d", size);
         // kprintf("\n ^^^^READY  enq rq PID: %d", new_pcb -> PID);
     } else if (state == BLOCKED) {
@@ -127,7 +127,8 @@ void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb) {
             blocked_queue_head = new_pcb;
             blocked_queue_tail = new_pcb;
         }
-        int size = checkLinkedListLength(blocked_queue_head);
+        // TODO: move to test section
+        // int size = checkLinkedListLength(blocked_queue_head);
         // kprintf("\n ^^^BLOCKED enq bq remaining size: %d", size);
         // kprintf("\n ^^^^BLOCKED  enq bq PID: %d", new_pcb -> PID);
     } else {

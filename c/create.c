@@ -59,14 +59,14 @@ int create(void (*func)(void), int stack) {
                  
     *(long*)(tempEsp)   = 0;                   //edi
     *(long*)(tempEsp+4) = 0;                   //esi
-    *(long*)(tempEsp+8) = tempEsp;             //ebp
-    *(long*)(tempEsp+12) = tempEsp;            //esp
+    *(long*)(tempEsp+8) = (unsigned long)tempEsp;    //ebp
+    *(long*)(tempEsp+12) = (unsigned long)tempEsp;  //esp
     *(long*)(tempEsp+16) = 0;                  //ebx
     *(long*)(tempEsp+20) = 0;                  //edx
     *(long*)(tempEsp+24) = 0;                  //ecx
     *(long*)(tempEsp+28) = 0;                  //eax
-    *(long*)(tempEsp+32) = func;               //eip
-    *(long*)(tempEsp+36) = getCS();;           //cs
+    *(long*)(tempEsp+32) = (unsigned long)func;  //eip
+    *(long*)(tempEsp+36) = getCS();           //cs
     *(long*)(tempEsp+40) = 0;                  //edi
     new_pcb -> state = READY;
     enqueuepcb(READY, new_pcb);
