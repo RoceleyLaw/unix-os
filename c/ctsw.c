@@ -12,6 +12,8 @@
 void _ISREntryPoint();
 static void *k_stack;
 static unsigned long ESP;
+static unsigned long ECX;
+static unsigned long EDX;
 extern void contextinit () {
     set_evec(SYS_CALL_INT_NUM, _ISREntryPoint);
 }
@@ -30,7 +32,9 @@ kprintf("\n the  value of stack ptr: %d", ESP);
     _ISREntryPoint:  \n\
     pusha   \n\
     movl  %%esp, ESP  \n\
-    movl  k_stack, %%esp \n\  
+    movl  k_stack, %%esp \n\
+    movl  %%ecx,  ECX \n\
+    movl  %%edx,  EDX \n\
     popa \n\
     popf \n\
         "
@@ -42,9 +46,9 @@ kprintf("\n the  value of stack ptr: %d", ESP);
 p -> esp = ESP;
 context_frame_t* cf = (context_frame_t *)p -> esp;
 // store function ptr as the first argument
-arg[0] = (context_frame_t *)p -> ecx;
+arg[0] = ECX;
 // store the stack size as the second argument
-arg[1] = (context_frame_t *)p -> edx
+arg[1] = EDX;
 kprintf("\n cf -> eax value : %d", cf -> eax);
 for (int i = 0; i < 1000; i++);
 return (int)cf -> eax;
