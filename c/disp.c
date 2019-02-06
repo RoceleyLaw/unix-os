@@ -53,7 +53,6 @@ extern void dispatch() {
         // dispatcher is working for the kernel, which means when we call dispatch,
         // we are at kernel mode
         int request = contextswitch(process);
-        for( ;; );
         switch (request)
         {
             case CREATE:
