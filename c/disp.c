@@ -48,7 +48,7 @@ extern void dispatch() {
     pcb_t* process = next();
     kprintf("WHAT's our next process??");
 
-    // while (1) {
+    while (1) {
         // todo: when would contextswitcher returns? 
         // dispatcher is working for the kernel, which means when we call dispatch,
         // we are at kernel mode
@@ -81,9 +81,8 @@ extern void dispatch() {
         //         cleanup(process); 
         //         process = next();
         //         break;
-        //     default:
-        //         break;
+            default:
+                break;
         }
     }
-
 }
