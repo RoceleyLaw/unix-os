@@ -15,7 +15,7 @@ static unsigned long ESP;
 extern void contextinit () {
     set_evec(SYS_CALL_INT_NUM, _ISREntryPoint);
 }
-
+extern int args[2];
 extern int contextswitch(pcb_t *p) {
 ESP = p -> esp;
 for(int i=0; i<1000000; i++);
@@ -41,6 +41,10 @@ kprintf("\n the  value of stack ptr: %d", ESP);
  kprintf("\n the  value of updated stack ptr after ctsw: %d", p -> esp);
 p -> esp = ESP;
 context_frame_t* cf = (context_frame_t *)p -> esp;
+// store function ptr as the first argument
+arg[0] = (context_frame_t *)p -> ecx;
+// store the stack size as the second argument
+arg[1] = (context_frame_t *)p -> edx
 kprintf("\n cf -> eax value : %d", cf -> eax);
 for (int i = 0; i < 1000; i++);
 return (int)cf -> eax;

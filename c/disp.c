@@ -6,7 +6,10 @@ extern pcb_t *stopped_queue_tail;
 extern pcb_t *ready_queue_tail;
 extern pcb_t *blocked_queue_tail;
 extern pcb_t *running_process;
-extern va_list ap;
+// Pass parameter from context switcher in
+// arg[0]: func ptr
+// arg[1]: stack size
+extern int args[2];
 extern void dispInit() {
     initpcbtable();
 }
@@ -63,11 +66,11 @@ extern void dispatch() {
             {   kprintf("\n GET A CREATE req");
         		//Create a new process using the current eip
 	        	void (*func)(void);
-	        	func = va_arg(ap, long);
+	        	func = args[0];
 	        	for (int i = 0; i < 4000000; i++);
-	        	kprintf("function address is %d", func);
-	        	int stack = va_arg(ap, int);
-                kprintf("\n va_arg: %d, %d",func, stack);
+	        	kprintf("\n disp : function address is %d", args[1]);
+	        	int stack = args[2];
+                kprintf("\n va_arg: %d, %d", func, args[2]);
 	        	create(func, stack);
 	        	break;
 	       	}
