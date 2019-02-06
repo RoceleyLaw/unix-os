@@ -12,9 +12,9 @@ void root(void) {
     kprintf("\n Hello world!");
     //TODO: stack size is set randomly as 100, need to think about it
     syscreate(&producer, 8194);
-    kprintf("\n CREATED");
+    // kprintf("\n CREATED");
     // for (;;);
-    // syscreate(&consumer, 100);
+    syscreate(&consumer, 8194);
     for (;;) sysyield();
 }
 
@@ -22,17 +22,17 @@ void root(void) {
 void producer(void) {
     for (int i = 0; i < 15; i++) {
         kprintf("\n Happy 2019\n");
-        for(;;);
-        // sysyield();
+        // for(;;);
+        sysyield();
     }
-   //sysstop();    
+   sysstop();    
 }
 
-// /* Consumer */
-// void consumer(void) {
-//     for (int i = 0; i < 15; i++) {
-//         kprintf("everyone \n");
-//         sysyield();
-//     }
-//     sysstop();  
-// }
+/* Consumer */
+void consumer(void) {
+    for (int i = 0; i < 15; i++) {
+        kprintf("everyone \n");
+        sysyield();
+    }
+    sysstop();  
+}
