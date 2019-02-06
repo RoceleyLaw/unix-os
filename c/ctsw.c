@@ -47,9 +47,9 @@ kprintf("\n the  value of stack ptr: %d", ESP);
 p -> esp = ESP;
 context_frame_t* cf = (context_frame_t *)p -> esp;
 // store function ptr as the first argument
-arg[0] = ECX;
+args[0] = ECX;
 // store the stack size as the second argument
-arg[1] = EDX;
+args[1] = EDX;
 kprintf("\n cf -> eax value : %d", cf -> eax);
 for (int i = 0; i < 1000; i++);
 return (int)cf -> eax;
