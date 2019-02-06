@@ -12,7 +12,7 @@ pcb_t *blocked_queue_tail;
 pcb_t *running_process;
 pcb_t pcb_table[32];
 
-void initpcbtable() {
+void initpcbtable(void) {
     // kprintf("/n === initializing pcb table ======= /n");
     running_process = NULL;
     blocked_queue_head = NULL;

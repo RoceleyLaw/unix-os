@@ -15,7 +15,7 @@ static unsigned long ESP;
 static unsigned long ECX;
 static unsigned long EDX;
 int args[2];
-extern void contextinit () {
+extern void contextinit (void) {
     set_evec(SYS_CALL_INT_NUM, _ISREntryPoint);
 }
 extern int contextswitch(pcb_t *p) {

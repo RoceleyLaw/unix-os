@@ -5,7 +5,7 @@
 #include <stdarg.h>
 /* Your code goes here */
 static unsigned long process_id;
-int syscall( int call, ... ) {
+int syscall(int call, ... ) {
     // kprintf("\n Starting syscall type: %d \n", call);
     if (call == CREATE) {
         va_list ap;
@@ -43,7 +43,7 @@ unsigned int syscreate(void (*func)(void), int stack ) {
     return syscall(CREATE, (unsigned long)func,(unsigned long) stack);
 }
 
-void sysyield( void ) {
+void sysyield(void) {
     syscall(YIELD);
 }
 

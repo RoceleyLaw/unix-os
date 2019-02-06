@@ -103,15 +103,15 @@ void *kmalloc(size_t size);
 int kfree(void *ptr);
 int checkLinkedListSize(void* head);
 // disp.c
-void dispInit();
-void dispatch();
+void dispInit(void);
+void dispatch(void);
 int contextswitch(pcb_t *p);
-void contextinit ();
+void contextinit (void);
 
 // create.c
 int create(void (*func)(void), int stack);
 // syscall.c
-unsigned int syscreate( void (*func)(void), int stack );
+unsigned int syscreate( void (*func)(void), int stack);
 void sysyield(void);
 void sysstop(void);
 

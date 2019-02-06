@@ -23,7 +23,7 @@ extern char	*maxaddr;	/* max memory address (set in i386.c)	*/
  *  The init process, this is where it all begins...
  *------------------------------------------------------------------------
  */
-void initproc( void )				/* The beginning */
+void initproc(void)				/* The beginning */
 {
 // The initialization function initproc() should initialize data structures such as the following: 
 // (1)the memory manager lists, 

@@ -10,13 +10,13 @@ extern pcb_t *running_process;
 // arg[0]: func ptr
 // arg[1]: stack size
 extern int args[2];
-void dispInit() {
+void dispInit(void) {
     initpcbtable();
 }
 
 /* removes the next process from the ready queue 
    and returns an index or a pointer to its process control block. */
-pcb_t *next() {
+pcb_t *next(void) {
     // TODO: remove the process, not just dequeue the pcb.
     pcb_t *next_pcb = dequeuepcb(READY);
     return next_pcb;
@@ -49,7 +49,7 @@ void cleanup(pcb_t *p) {
     - sysyield(): On a sysyield call, the dispatcher places the current process at the end of the ready
                   queue, and removes the next ready process from queue and makes it the current process. 
 After completing the requesting operation, the dispatcher calls the context switcher to switch into the current process.*/
-void dispatch() {
+void dispatch(void) {
     // process = next();
     // for( ;; ) 
     // request = contextswitch( process );
