@@ -7,6 +7,7 @@
 /* user.c : User processes
  */
 void producer(void);
+void consumer(void);
 /* Root process */
 void root(void) {
     kprintf("\n Hello world!");
