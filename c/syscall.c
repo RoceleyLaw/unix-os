@@ -34,7 +34,6 @@ extern int syscall( int call, ... ) {
         :"call"(call)
         : 
         );
-        return (int)process_id
     }
     kprintf("\n Error: unknown syscall type. Please check your syscall.c \n");
 	return -1;  
