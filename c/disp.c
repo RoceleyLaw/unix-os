@@ -30,6 +30,8 @@ void ready(pcb_t* pcb_ptr) {
 }
 
 void cleanup(pcb_t *p) {
+    kprintf("\n Cleanup is called \n\n\n");
+    for(;;);
 	//set the process state to STOPPED
 	p -> state = STOPPED;
 	//free the allocated space for that process
