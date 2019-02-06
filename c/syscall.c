@@ -35,7 +35,7 @@ extern int syscall( int call, ... ) {
         : 
         );
     } else {
-        // kprintf("\n Error: unknown syscall type. Please check your syscall.c \n");
+        kprintf("\n Error: unknown syscall type. Please check your syscall.c \n");
     }  
 }
 

@@ -19,38 +19,31 @@ int SAFETY_MARGIN = 16;
     - 0 on failure.*/
 extern int create(void (*func)(void), int stack) {
     if (!(unsigned long)(*func)) {
-        // kprintf("Error: invalid function address");
+        kprintf("Error: invalid function address");
         return 0;
     }
 
     if (stack <= 0) {
-        // kprintf("Warning: invalid stack size");
+        kprintf("Warning: invalid stack size");
         return 0;
     }
 
     // initialize the process control block
     pcb_t *new_pcb = dequeuepcb(STOPPED);
-    //malloc new memory for our new process
+    // malloc new memory for our new process
     void* new_memory = kmalloc((size_t) stack);
-    //set the allocated space and the size of the space to pcb
+    // set the allocated space and the size of the space to pcb
     new_pcb -> buff = new_memory;
-
+    // calculate the actual amount of space for stack (aligned to 16)
     unsigned long amnt = ((stack) / 16 + ((stack % 16)? 1:0))*16;
-
-    // kprintf("stack: %d, amount: %d", stack, amnt);
 
     // Point to end of the allocated memory chunk 
     // Subtract a safety margin and size of context frame 
     // Stack pointer starts here 
     void* tempEsp = new_memory + amnt - SAFETY_MARGIN - sizeof(context_frame_t);
     new_pcb -> esp = tempEsp;
-    // // kprintf("\nnew_memory: %d, tempEsp: %d", new_memory, tempEsp);
 
-    //Initialize the context frame
-    
-    //TODO: !!!!!!!!!!!!!!!! (Fill in eflags!)
-    // kprintf("\ntempEsp: %d", tempEsp);
-    //initialize the new context frame value
+    // Initialize the context frame for the new process
     // context_frame_t* new_ctf = (context_frame_t*) tempEsp;
     // new_ctf -> eflags = 0;
     // new_ctf->iret_cs = getCS();
@@ -63,22 +56,6 @@ extern int create(void (*func)(void), int stack) {
     // new_ctf->ebp = (unsigned long)tempEsp;
     // new_ctf->esi = 0; 
     // new_ctf->edi = 0;
-    
-    // // Assign the context frame value
-    // context_frame_t* ctf_bottom = (context_frame_t*)tempEsp;
-    // kprintf("TEMP ESP: %d", ctf_bottom);
-    // ctf_bottom -> eflags = new_ctf.eflags;
-    // ctf_bottom -> iret_cs = new_ctf.iret_cs;
-    // ctf_bottom -> iret_eip = new_ctf.iret_eip;
-    // ctf_bottom -> eax = new_ctf.eax;
-    // ctf_bottom -> ecx = new_ctf.ecx;
-    // ctf_bottom -> edx = new_ctf.edx;
-    // ctf_bottom -> ebx = new_ctf.ebx;
-    // ctf_bottom -> esp = new_ctf.esp;
-    // ctf_bottom -> ebp = new_ctf.ebp;
-    // ctf_bottom -> esi = new_ctf.esi;
-    // ctf_bottom -> edi = new_ctf.edi;
-
                  
     *(long*)(tempEsp)   = 0;                   //edi
     *(long*)(tempEsp+4) = 0;                   //esi
@@ -91,10 +68,6 @@ extern int create(void (*func)(void), int stack) {
     *(long*)(tempEsp+32) = func;               //eip
     *(long*)(tempEsp+36) = getCS();;           //cs
     *(long*)(tempEsp+40) = 0;                  //edi
-    // for(int i = 0; i < 11; i++){
-    //     kprintf("new_ctf : %d",  *(unsigned long*)(tempEsp + i*4));
-    // }
-    //for(;;);
     new_pcb -> state = READY;
     enqueuepcb(READY, new_pcb);
     return 1;

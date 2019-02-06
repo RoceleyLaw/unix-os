@@ -25,11 +25,11 @@ extern char	*maxaddr;	/* max memory address (set in i386.c)	*/
  */
 void initproc( void )				/* The beginning */
 {
-//   The initialization function initproc() should initialize data structures such as 
-// the memory manager lists, 
-// the process table, 
-// the process queues, 
-// and the interrupt table. As you add other components you will have to add code to initproc() to initialize them. 
+// The initialization function initproc() should initialize data structures such as the following: 
+// (1)the memory manager lists, 
+// (2)the process table, 
+// (3)the process queues, 
+// (4) the interrupt table. As you add other components you will have to add code to initproc() to initialize them. 
 // The process table must be able to contain at least 32 processes. The size of the process table must be a power of 2.
   char str[1024];
   int a = sizeof(str);
@@ -54,33 +54,25 @@ void initproc( void )				/* The beginning */
 
   /* Print the string */
 
-  // kprintf("\n\nThe %dstring is: \"%s\"\n\nThe formula is %d + %d = %d.\n\n\n", 
-	//   a, str, a, b, a + b);
-
   // kprintf("\n\n ==== The max address is: %d ==== \n\n\n ", maxaddr);
 
   for (i = 0; i < 4000000; i++);
   /* or just on its own */
-  // kprintf(str);
-
   /* Add your code below this line and before next comment */
   kmeminit();
   // initialize dispatcher
   dispInit();
   // initialize context switcher
   contextinit ();
-  // Root proc
-  // kprintf("\n for root process.... ");
+  // root proc
   create(root, 8192);
+  // run the dispatcher
   dispatch();
-
-  // create(NULL, 0);
-  // create(NULL, 0);
 
   for (i = 0; i < 2000000; i++);
   /* Add all of your code before this comment and after the previous comment */
   /* This code should never be reached after you are done */
-  // // kprintf("\n\nWhen your  kernel is working properly ");
+  kprintf("\n\nWhen your  kernel is working properly ");
   kprintf("this line should never be printed!\n");
   for(;;) ; /* loop forever */
 }
