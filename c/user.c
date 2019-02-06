@@ -9,22 +9,23 @@
 void producer(void);
 /* Root process */
 void root(void) {
-    kprintf("Hello world!\n");
+    kprintf("\n Hello world!");
     //TODO: stack size is set randomly as 100, need to think about it
     syscreate(&producer, 8194);
-    kprintf("CREATED\n");
-    for (;;);
+    kprintf("\n CREATED");
+    // for (;;);
     // syscreate(&consumer, 100);
-    // for (;;) sysyield();
+    for (;;) sysyield();
 }
 
 /* Producer */
 void producer(void) {
     for (int i = 0; i < 15; i++) {
         kprintf("\n Happy 2019\n");
+        for(;;);
         // sysyield();
     }
-   // sysstop();    
+   //sysstop();    
 }
 
 // /* Consumer */

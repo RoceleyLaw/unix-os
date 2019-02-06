@@ -25,10 +25,17 @@ pcb_t *next() {
 /*  takes an index or pointer to a process control block 
     and adds it to the ready queue. */
 void ready(pcb_t* pcb_ptr) {
+    pcb_ptr -> state = READY;
     enqueuepcb(READY, pcb_ptr);
 }
 
-void cleanup(pcb_t* pcb_ptr) {
+void cleanup(pcb_t *p) {
+	//set the process state to STOPPED
+	p -> state = STOPPED;
+	//free the allocated space for that process
+	kfree(p -> buff);
+	//add the process to STOPPED queue
+	enqueuepcb(STOPPED, p);
 }
 
 /* An infinite loop that processes system calls,
@@ -59,12 +66,8 @@ extern void dispatch() {
         switch (request)
         {
             case CREATE:
-            // TODO: not correct here, create() in create.c is not returning any ptr
-                // pcb_t* new_proc = create(NULL, 0);
-                // enqueuepcb(READY, new_proc);
-                // break;
             {   kprintf("\n GET A CREATE req");
-        		//Create a new process using the current eip
+        		// Create a new process
 	        	void (*func)(void);
 	        	func = args[0];
 	        	for (int i = 0; i < 4000000; i++);
@@ -74,17 +77,25 @@ extern void dispatch() {
 	        	create(func, stack);
 	        	break;
 	       	}
-        //     case YIELD:
-        //         // TODO: think of how to get current proc info
-        //         ready(process);
-        //         process = next();
-        //         break;
-        //     case STOP:
-        //         cleanup(process); 
-        //         process = next();
-        //         break;
-            default:
+            case YIELD:
+            {
+                // Yeild the process. process here is a pcb ptr. 
+                // We want yield the currently running process
+                ready(process);
+                process = next();
                 break;
+            }
+            case STOP:
+            {
+                cleanup(process); 
+                process = next();
+                break;
+            }
+            default:
+            {
+                kprintf("\n Error: unknown request received. Please check your disp.c \n");
+                break;
+            }
         }
     }
 }
