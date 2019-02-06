@@ -52,5 +52,7 @@ extern void sysyield( void ) {
     return syscall(YIELD);
 }
 extern void sysstop(void) {
+    kprintf("\n SysStop is called \n");
+    for (int i = 0; i < 100; i++) {}
     return syscall(STOP);
 }
