@@ -6,7 +6,7 @@
 /* Your code goes here */
 static unsigned long process_id;
 extern int syscall( int call, ... ) {
-    kprintf("Starting syscall type: %d", call);
+    kprintf("\n Starting syscall type: %d \n", call);
     if (call == CREATE) {
         va_list ap;
         va_start(ap, call);
