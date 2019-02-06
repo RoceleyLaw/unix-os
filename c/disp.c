@@ -69,8 +69,8 @@ extern void dispatch() {
 	        	func = args[0];
 	        	for (int i = 0; i < 4000000; i++);
 	        	kprintf("\n disp : function address is %d", args[1]);
-	        	int stack = args[2];
-                kprintf("\n va_arg: %d, %d", func, args[2]);
+	        	int stack = args[1];
+                kprintf("\n va_arg: %d, %d", func, args[1]);
 	        	create(func, stack);
 	        	break;
 	       	}
