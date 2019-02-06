@@ -15,7 +15,7 @@ void root(void) {
     syscreate(&producer, 8194);
     // kprintf("\n CREATED");
     // for (;;);
-    syscreate(&consumer, 8194);
+    // syscreate(&consumer, 8194);
     for (;;) sysyield();
 }
 
