@@ -61,7 +61,7 @@ extern void dispatch() {
                 // pcb_t* new_proc = create(NULL, 0);
                 // enqueuepcb(READY, new_proc);
                 // break;
-            {
+            {   kprintf("\n GET A CREATE req");
         		//Create a new process using the current eip
 	        	void (*func)(void);
 	        	func = va_arg(args, long);

@@ -40,5 +40,8 @@ kprintf("\n the  value of stack ptr: %d", ESP);
   );
  kprintf("\n the  value of updated stack ptr after ctsw: %d", p -> esp);
  p -> esp = ESP;
- return 0;
+context_frame_t* cf = (context_frame_t *)p -> esp;
+kprintf("\n cf -> eax value : %d", cf -> eax);
+for (int i = 0; i < 1000; i++);
+return (int)cf -> eax;
 }
