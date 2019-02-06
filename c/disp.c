@@ -6,7 +6,7 @@ extern pcb_t *stopped_queue_tail;
 extern pcb_t *ready_queue_tail;
 extern pcb_t *blocked_queue_tail;
 extern pcb_t *running_process;
-extern va_list args;
+extern va_list ap;
 extern void dispInit() {
     initpcbtable();
 }
@@ -63,10 +63,10 @@ extern void dispatch() {
             {   kprintf("\n GET A CREATE req");
         		//Create a new process using the current eip
 	        	void (*func)(void);
-	        	func = va_arg(args, long);
+	        	func = va_arg(ap, long);
 	        	for (int i = 0; i < 4000000; i++);
 	        	kprintf("function address is %d", func);
-	        	int stack = va_arg(args, int);
+	        	int stack = va_arg(ap, int);
                 kprintf("\n va_arg: %d, %d",func, stack);
 	        	create(func, stack);
 	        	break;

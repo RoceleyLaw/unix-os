@@ -108,7 +108,6 @@ extern void dispatch();
 extern int contextswitch(pcb_t *p);
 extern void contextinit ();
 extern int create(void (*func)(void), int stack);
-
 // syscall.c
 extern unsigned int syscreate( void (*func)(void), int stack );
 extern void sysyield(void);

@@ -5,10 +5,11 @@
 #include <stdarg.h>
 /* Your code goes here */
 static unsigned long process_id;
+extern va_list ap;
 extern int syscall( int call, ... ) {
     kprintf("Starting syscall type: %d", call);
     if (call == CREATE) {
-        va_list ap;
+        // va_list ap;
         va_start(ap, call);
         void (*func)(void) = va_arg(ap, void(*)(void));
         int stack = va_arg(ap, int);
