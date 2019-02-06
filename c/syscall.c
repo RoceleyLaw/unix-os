@@ -25,7 +25,7 @@ extern int syscall( int call, ... ) {
         : 
         );
         return (int)process_id;
-    } else if (call == YIELD || call == STOPPED) {
+    } else if (call == YIELD || call == STOP) {
         __asm__ __volatile__("\
             movl %0, %%eax \n\
             int $49 \n\
