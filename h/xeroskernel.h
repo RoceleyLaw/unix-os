@@ -124,4 +124,5 @@ extern void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb);
 
 // user.c
 extern void root(void);
+extern void producer(void
 #endif
