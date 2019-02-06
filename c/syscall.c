@@ -34,9 +34,9 @@ extern int syscall( int call, ... ) {
         :"call"(call)
         : 
         );
-    }
-    kprintf("\n Error: unknown syscall type. Please check your syscall.c \n");
-	return -1;  
+    } else {
+        kprintf("\n Error: unknown syscall type. Please check your syscall.c \n");
+    }  
 }
 
 extern unsigned int syscreate(void (*func)(void), int stack ) {
