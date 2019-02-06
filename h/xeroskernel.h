@@ -96,28 +96,30 @@ typedef struct pcb {
 } pcb_t;
 
 // Global static array of size 32 (max process we need to accommodate)
-extern pcb_t pcb_table[32];
+pcb_t pcb_table[32];
 
-extern void kmeminit(void);
-extern void *kmalloc(size_t size);
-extern int kfree(void *ptr);
-extern int checkLinkedListSize(void* head);
+void kmeminit(void);
+void *kmalloc(size_t size);
+int kfree(void *ptr);
+int checkLinkedListSize(void* head);
 // disp.c
-extern void dispInit();
-extern void dispatch();
-extern int contextswitch(pcb_t *p);
-extern void contextinit ();
-extern int create(void (*func)(void), int stack);
+void dispInit();
+void dispatch();
+int contextswitch(pcb_t *p);
+void contextinit ();
+
+// create.c
+int create(void (*func)(void), int stack);
 // syscall.c
-extern unsigned int syscreate( void (*func)(void), int stack );
-extern void sysyield(void);
-extern void sysstop(void);
+unsigned int syscreate( void (*func)(void), int stack );
+void sysyield(void);
+void sysstop(void);
 
 // pcb.c
-extern void initpcbtable(void);
-extern pcb_t* dequeuepcb(process_state_enum_t state);
-extern void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb);
+void initpcbtable(void);
+pcb_t* dequeuepcb(process_state_enum_t state);
+void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb);
 // user.c
-extern void root(void);
+void root(void);
 void producer(void);
 #endif
