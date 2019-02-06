@@ -1,11 +1,12 @@
 /* disp.c : dispatcher
  */
 #include <xeroskernel.h>
+#include <stdarg.h>
 extern pcb_t *stopped_queue_tail;
 extern pcb_t *ready_queue_tail;
 extern pcb_t *blocked_queue_tail;
 extern pcb_t *running_process;
-
+extern va_list args;
 extern void dispInit() {
     initpcbtable();
 }
@@ -53,13 +54,24 @@ extern void dispatch() {
         // we are at kernel mode
         int request = contextswitch(process);
         for( ;; );
-        // switch (request)
-        // {
-        //     case CREATE:
-        //     // TODO: not correct here, create() in create.c is not returning any ptr
-        //         // pcb_t* new_proc = create(NULL, 0);
-        //         // enqueuepcb(READY, new_proc);
-        //         break;
+        switch (request)
+        {
+            case CREATE:
+            // TODO: not correct here, create() in create.c is not returning any ptr
+                // pcb_t* new_proc = create(NULL, 0);
+                // enqueuepcb(READY, new_proc);
+                // break;
+            {
+        		//Create a new process using the current eip
+	        	void (*func)(void);
+	        	func = va_arg(args, long);
+	        	for (int i = 0; i < 4000000; i++);
+	        	kprintf("function address is %d", func);
+	        	int stack = va_arg(args, int);
+                kprintf("\n va_arg: %d, %d",func, stack);
+	        	create(func, stack);
+	        	break;
+	       	}
         //     case YIELD:
         //         // TODO: think of how to get current proc info
         //         ready(process);
@@ -71,7 +83,7 @@ extern void dispatch() {
         //         break;
         //     default:
         //         break;
-        // }
-    //}
+        }
+    }
 
 }

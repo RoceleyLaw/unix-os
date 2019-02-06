@@ -18,9 +18,6 @@ extern void contextinit () {
 
 extern int contextswitch(pcb_t *p) {
 ESP = p -> esp;
-for(int i = 0; i < 11; i++){
-    kprintf("11223344 : %d",  *(unsigned long*)(ESP + i*4));
-}
 for(int i=0; i<1000000; i++);
 kprintf("\n the  value of stack ptr: %d", ESP);
   __asm __volatile( " \
@@ -43,8 +40,5 @@ kprintf("\n the  value of stack ptr: %d", ESP);
   );
  kprintf("\n the  value of updated stack ptr after ctsw: %d", p -> esp);
  p -> esp = ESP;
-
  return 0;
-
-
 }
