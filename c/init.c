@@ -57,11 +57,11 @@ void initproc( void )				/* The beginning */
   // kprintf("\n\nThe %dstring is: \"%s\"\n\nThe formula is %d + %d = %d.\n\n\n", 
 	//   a, str, a, b, a + b);
 
-  kprintf("\n\n ==== The max address is: %d ==== \n\n\n ", maxaddr);
+  // kprintf("\n\n ==== The max address is: %d ==== \n\n\n ", maxaddr);
 
   for (i = 0; i < 4000000; i++);
   /* or just on its own */
-  kprintf(str);
+  // kprintf(str);
 
   /* Add your code below this line and before next comment */
   kmeminit();
@@ -70,7 +70,7 @@ void initproc( void )				/* The beginning */
   // initialize context switcher
   contextinit ();
   // Root proc
-  kprintf("\n for root process.... ");
+  // kprintf("\n for root process.... ");
   create(root, 8192);
   dispatch();
 
@@ -80,7 +80,7 @@ void initproc( void )				/* The beginning */
   for (i = 0; i < 2000000; i++);
   /* Add all of your code before this comment and after the previous comment */
   /* This code should never be reached after you are done */
-  // kprintf("\n\nWhen your  kernel is working properly ");
+  // // kprintf("\n\nWhen your  kernel is working properly ");
   kprintf("this line should never be printed!\n");
   for(;;) ; /* loop forever */
 }

@@ -6,7 +6,7 @@
 /* Your code goes here */
 static unsigned long process_id;
 extern int syscall( int call, ... ) {
-    kprintf("\n Starting syscall type: %d \n", call);
+    // kprintf("\n Starting syscall type: %d \n", call);
     if (call == CREATE) {
         va_list ap;
         va_start(ap, call);
@@ -35,7 +35,7 @@ extern int syscall( int call, ... ) {
         : 
         );
     } else {
-        kprintf("\n Error: unknown syscall type. Please check your syscall.c \n");
+        // kprintf("\n Error: unknown syscall type. Please check your syscall.c \n");
     }  
 }
 
@@ -46,7 +46,7 @@ extern void sysyield( void ) {
     syscall(YIELD);
 }
 extern void sysstop(void) {
-    kprintf("\n SysStop is called \n");
+    // kprintf("\n SysStop is called \n");
     // for (int i = 0; i < 100; i++) {}
     syscall(STOP);
 }

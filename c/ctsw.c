@@ -21,7 +21,7 @@ extern void contextinit () {
 extern int contextswitch(pcb_t *p) {
 ESP = p -> esp;
 for(int i=0; i<1000000; i++);
-kprintf("\n the  value of stack ptr: %d", ESP);
+// kprintf("\n the  value of stack ptr: %d", ESP);
   __asm __volatile( " \
     pushf  \n\
     pusha  \n\
@@ -42,14 +42,14 @@ kprintf("\n the  value of stack ptr: %d", ESP);
   : 
   : "%eax"
   );
-kprintf("\n the  value of updated stack ptr after ctsw: %d", p -> esp);
+// kprintf("\n the  value of updated stack ptr after ctsw: %d", p -> esp);
 p -> esp = ESP;
 context_frame_t* cf = (context_frame_t *)p -> esp;
 // store function ptr as the first argument
 args[0] = ECX;
 // store the stack size as the second argument
 args[1] = EDX;
-kprintf("\n cf -> eax value : %d", cf -> eax);
+// kprintf("\n cf -> eax value : %d", cf -> eax);
 for (int i = 0; i < 1000; i++);
 return (int)cf -> eax;
 }

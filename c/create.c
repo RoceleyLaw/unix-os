@@ -19,12 +19,12 @@ int SAFETY_MARGIN = 16;
     - 0 on failure.*/
 extern int create(void (*func)(void), int stack) {
     if (!(unsigned long)(*func)) {
-        kprintf("Error: invalid function address");
+        // kprintf("Error: invalid function address");
         return 0;
     }
 
     if (stack <= 0) {
-        kprintf("Warning: invalid stack size");
+        // kprintf("Warning: invalid stack size");
         return 0;
     }
 
@@ -37,7 +37,7 @@ extern int create(void (*func)(void), int stack) {
 
     unsigned long amnt = ((stack) / 16 + ((stack % 16)? 1:0))*16;
 
-    kprintf("stack: %d, amount: %d", stack, amnt);
+    // kprintf("stack: %d, amount: %d", stack, amnt);
 
     // Point to end of the allocated memory chunk 
     // Subtract a safety margin and size of context frame 
@@ -49,7 +49,7 @@ extern int create(void (*func)(void), int stack) {
     //Initialize the context frame
     
     //TODO: !!!!!!!!!!!!!!!! (Fill in eflags!)
-    kprintf("\ntempEsp: %d", tempEsp);
+    // kprintf("\ntempEsp: %d", tempEsp);
     //initialize the new context frame value
     // context_frame_t* new_ctf = (context_frame_t*) tempEsp;
     // new_ctf -> eflags = 0;

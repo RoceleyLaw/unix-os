@@ -66,7 +66,7 @@ extern void kmeminit(void) {
     memSlot -> sanityCheck = NULL;
     // memSlot points to the head, which refers to the start of the freemem
     memSlot = (struct memHeader *)(freemem + (freemem % 16));
-    kprintf("\n ==== The memSlot pointer value is: %d, freemem value: %d ==== \n ", memSlot, freemem);
+    // kprintf("\n ==== The memSlot pointer value is: %d, freemem value: %d ==== \n ", memSlot, freemem);
     
    
     /* Called to debug the function. Should never be called here*/
@@ -115,7 +115,7 @@ extern int checkLinkedListSize(void* head) {
        count++;
        // kprintf("\n ==== The linked list addr is: %d , size is: %d ==== \n ", cur, cur -> size);
    }
-   kprintf("\n ==== The linked list size is: %d ==== \n ", count);
+   // kprintf("\n ==== The linked list size is: %d ==== \n ", count);
    return count;
 }
 
@@ -131,11 +131,11 @@ extern void *kmalloc(size_t size) {
     
     // ASSERTION: amnt allocated must be a multiple of 16
     // assert(amnt % 16 == 0);
-    kprintf("\n Actual Memory allocated :%d \n", amnt);
+    // kprintf("\n Actual Memory allocated :%d \n", amnt);
     
     // if the size <= 0, ignore the request
     if (amnt <= 0) {
-        kprintf("\n Requested a space <= 0 byte: %d byte", amnt);
+        // kprintf("\n Requested a space <= 0 byte: %d byte", amnt);
         return 0;
     }
 
@@ -157,14 +157,14 @@ extern void *kmalloc(size_t size) {
             cur -> prev = NULL;
             cur -> next = NULL;
             cur -> sanityCheck = cur;
-            kprintf("\n ===== allocated block sanityCheck value: %d =======", cur -> sanityCheck);
+            // kprintf("\n ===== allocated block sanityCheck value: %d =======", cur -> sanityCheck);
             return cur -> dataStart;
         } else if (cur -> size > amnt) {
             tmp = cur;
             // keep the original size (including the header size)
             unsigned long originalSize = cur -> size;
             // resize the current node
-            kprintf("\n old address of pointer %d, old size: %d \n", cur, cur -> size);
+            // kprintf("\n old address of pointer %d, old size: %d \n", cur, cur -> size);
             cur -> size = amnt;
             // Any potential risk for setting sanityCheck as a pointer pointing to the start of header?
             /////// sanity check here ////////
@@ -172,20 +172,20 @@ extern void *kmalloc(size_t size) {
             // seperate the rest as another chunk
             // pointer reset to the new address
             cur = (struct memHeader *)((unsigned long)cur + amnt); /// pay attention to this
-            kprintf("------ cur pointer value after redirect to next chunk------: %d", cur);
+            // kprintf("------ cur pointer value after redirect to next chunk------: %d", cur);
             // Size of the free chunk + header after allocation
             cur -> size = originalSize - amnt;
-            kprintf("\n new address of pointer %d, new size: %d \n", cur, cur -> size);
+            // kprintf("\n new address of pointer %d, new size: %d \n", cur, cur -> size);
             ////kprintf("\n sanity check pointer value: %d, address of header: %d \n", cur -> sanityCheck, cur);
             
             cur -> next = tmp -> next;
             cur -> prev = tmp -> prev;
-            kprintf("cur->prev: %d", cur->prev);
+            // kprintf("cur->prev: %d", cur->prev);
 
             if (cur -> prev) {
                 cur -> prev -> next = cur;
             }
-            kprintf("cur->next: %d", cur->next);
+            // kprintf("cur->next: %d", cur->next);
             if (cur -> next) {
                 cur -> next -> prev = cur;
             }
@@ -196,9 +196,9 @@ extern void *kmalloc(size_t size) {
             // if the head of the freelist has been (partially) filled, move the head of the list
             if (cur -> prev == NULL) {
                 memSlot = cur;
-                kprintf("\n reset memSlot by spliting big mem chunk: %d",memSlot);
+                // kprintf("\n reset memSlot by spliting big mem chunk: %d",memSlot);
             }
-            kprintf("the adjusted pointer value: %d", memSlot);
+            // kprintf("the adjusted pointer value: %d", memSlot);
             // tmp = NULL; 
             return tmp -> dataStart;
         } else {
@@ -208,7 +208,7 @@ extern void *kmalloc(size_t size) {
             ////kprintf("------ cur pointer value ------: %d", cur);
         }
     }
-    kprintf("Warning: malloc failed due to insufficient memory space");
+    // kprintf("Warning: malloc failed due to insufficient memory space");
     return 0;
 }
 
@@ -218,16 +218,16 @@ extern int kfree(void *ptr) {
     // Merge adjacent blocks together to create larger contiguous regions
     // stub
     if (ptr == NULL || ptr > maxaddr || (ptr >= HOLESTART && ptr < HOLEEND)) {
-        kprintf("\n Error: ptr out of available range. \n");
+        // kprintf("\n Error: ptr out of available range. \n");
         return 0;
     }
     /* Sanity Check here */
     // Check the value here
     // Find the starting addr of the header 
     struct memHeader *startOfHeader = (struct memHeader *) ((unsigned long)ptr - sizeof(struct memHeader));
-    kprintf("\n ~~~~~~~startOfHeader: %d", startOfHeader);
+    // kprintf("\n ~~~~~~~startOfHeader: %d", startOfHeader);
     if ((strcmp(startOfHeader -> sanityCheck, startOfHeader)) != 0) {
-        kprintf("\n Error: no header found at the ptr address. \n");
+        // kprintf("\n Error: no header found at the ptr address. \n");
         return 0;
     }
     // memSlot points to the head of the linked list
@@ -245,7 +245,7 @@ extern int kfree(void *ptr) {
             startOfHeader -> size = (startOfHeader -> size) + (cur1 -> size);
             mergedNext = 1;
             /* important logic */
-            kprintf("\n Merging the next....: %d", cur1);
+            // kprintf("\n Merging the next....: %d", cur1);
             if (cur1 -> next) {
                 cur1 -> next -> prev = startOfHeader;
             }
@@ -275,9 +275,9 @@ extern int kfree(void *ptr) {
     struct memHeader* cur2 = memSlot;
     while (cur2 != NULL) { 
          // Merge needed: merge the prev block
-         kprintf("\n What the fuck????? .... memSlot: %d, cur2 + cur2->size: %d, %d", memSlot, (unsigned long)cur2 + (cur2 -> size), startOfHeader);
+         // kprintf("\n What the fuck????? .... memSlot: %d, cur2 + cur2->size: %d, %d", memSlot, (unsigned long)cur2 + (cur2 -> size), startOfHeader);
         if ((unsigned long)cur2 + (cur2 -> size) == (unsigned long)startOfHeader) {
-            kprintf("\n Merging the prev....: %d", cur2);
+            // kprintf("\n Merging the prev....: %d", cur2);
             cur2 -> size = (cur2 -> size) + (startOfHeader -> size);
             // The user should not be able to free this area again
             startOfHeader -> sanityCheck = NULL;
@@ -306,7 +306,7 @@ extern int kfree(void *ptr) {
             mergedPrev = 1;
             break;
         }
-        kprintf("cur2 next!!!!!!!: %d", cur2 -> next);
+        // kprintf("cur2 next!!!!!!!: %d", cur2 -> next);
         cur2 = cur2 -> next;
      }
 

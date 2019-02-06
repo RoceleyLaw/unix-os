@@ -30,8 +30,8 @@ void ready(pcb_t* pcb_ptr) {
 }
 
 void cleanup(pcb_t *p) {
-    kprintf("\n Cleanup is called \n\n\n");
-    for(;;);
+    // kprintf("\n Cleanup is called \n\n\n");
+    // for(;;);
 	//set the process state to STOPPED
 	p -> state = STOPPED;
 	//free the allocated space for that process
@@ -58,7 +58,7 @@ extern void dispatch() {
     //     case( YIELD ): ready( process ); process = next(); break;
     //     case( STOP ): cleanup( process ); process = next(); free the stack space and PCB; break; }
     pcb_t* process = next();
-    kprintf("WHAT's our next process??");
+    // kprintf("WHAT's our next process??");
 
     while (1) {
         // todo: when would contextswitcher returns? 
@@ -68,14 +68,14 @@ extern void dispatch() {
         switch (request)
         {
             case CREATE:
-            {   kprintf("\n GET A CREATE req");
+            {   // kprintf("\n GET A CREATE req");
         		// Create a new process
 	        	void (*func)(void);
 	        	func = args[0];
 	        	for (int i = 0; i < 4000000; i++);
-	        	kprintf("\n disp : function address is %d", args[1]);
+	        	// kprintf("\n disp : function address is %d", args[1]);
 	        	int stack = args[1];
-                kprintf("\n va_arg: %d, %d", func, args[1]);
+                // kprintf("\n va_arg: %d, %d", func, args[1]);
 	        	create(func, stack);
 	        	break;
 	       	}
@@ -95,7 +95,7 @@ extern void dispatch() {
             }
             default:
             {
-                kprintf("\n Error: unknown request received. Please check your disp.c \n");
+                // kprintf("\n Error: unknown request received. Please check your disp.c \n");
                 break;
             }
         }
