@@ -12,6 +12,8 @@ void root(void) {
     kprintf("Hello world!\n");
     //TODO: stack size is set randomly as 100, need to think about it
     syscreate(&producer, 8194);
+    kprintf("CREATED\n");
+    for (;;);
     // syscreate(&consumer, 100);
     // for (;;) sysyield();
 }

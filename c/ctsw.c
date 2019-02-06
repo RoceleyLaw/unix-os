@@ -18,7 +18,6 @@ int args[2];
 extern void contextinit () {
     set_evec(SYS_CALL_INT_NUM, _ISREntryPoint);
 }
-extern int args[2];
 extern int contextswitch(pcb_t *p) {
 ESP = p -> esp;
 for(int i=0; i<1000000; i++);
@@ -43,7 +42,7 @@ kprintf("\n the  value of stack ptr: %d", ESP);
   : 
   : "%eax"
   );
- kprintf("\n the  value of updated stack ptr after ctsw: %d", p -> esp);
+kprintf("\n the  value of updated stack ptr after ctsw: %d", p -> esp);
 p -> esp = ESP;
 context_frame_t* cf = (context_frame_t *)p -> esp;
 // store function ptr as the first argument
