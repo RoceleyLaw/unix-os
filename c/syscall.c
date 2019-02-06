@@ -7,7 +7,7 @@
 static unsigned long process_id;
 extern int syscall( int call, ... ) {
     kprintf("Starting syscall type: %d", call);
-    if (call == SYSCALL_CREATE) {
+    if (call == CREATE) {
         va_list ap;
         va_start(ap, call);
         void (*func)(void) = va_arg(ap, void(*)(void));
@@ -29,7 +29,7 @@ extern int syscall( int call, ... ) {
 }
 
 extern unsigned int syscreate(void (*func)(void), int stack ) {
-    return syscall(SYSCALL_CREATE, (unsigned long)func,(unsigned long) stack);
+    return syscall(CREATE, (unsigned long)func,(unsigned long) stack);
 }
 extern void sysyield( void ) {
 }

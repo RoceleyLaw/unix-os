@@ -44,9 +44,6 @@ void           set_evec(unsigned int xnum, unsigned long handler);
 
 /* Anything you add must be between the #define and this comment */
 #define SYS_CALL_INT_NUM 49
-#define SYSCALL_CREATE 0
-#define SYSCALL_YIELD 1
-#define SYSCALL_STOP 2
 
 typedef enum {
     READY = 0,
