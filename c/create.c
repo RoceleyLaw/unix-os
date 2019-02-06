@@ -17,7 +17,7 @@ int SAFETY_MARGIN = 16;
     Return:
     - 1 on success
     - 0 on failure.*/
-extern int create(void (*func)(void), int stack) {
+int create(void (*func)(void), int stack) {
     if (!(unsigned long)(*func)) {
         kprintf("Error: invalid function address");
         return 0;

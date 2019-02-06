@@ -12,7 +12,7 @@ pcb_t *blocked_queue_tail;
 pcb_t *running_process;
 pcb_t pcb_table[32];
 
-extern void initpcbtable() {
+void initpcbtable() {
     // kprintf("/n === initializing pcb table ======= /n");
     running_process = NULL;
     blocked_queue_head = NULL;
@@ -53,7 +53,7 @@ int checkLinkedListLength(void* head) {
    return count;
 }
 
-extern pcb_t *dequeuepcb(process_state_enum_t state) {
+pcb_t *dequeuepcb(process_state_enum_t state) {
     pcb_t *cur = NULL;
     if (state == STOPPED) {
         cur = stopped_queue_head;
@@ -96,7 +96,7 @@ extern pcb_t *dequeuepcb(process_state_enum_t state) {
     return NULL;
 }
 
-extern void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb) {
+void enqueuepcb(process_state_enum_t state, pcb_t *new_pcb) {
     if (state == STOPPED) {
         if (stopped_queue_tail) {
             stopped_queue_tail -> sq_next = new_pcb;

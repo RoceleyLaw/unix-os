@@ -37,7 +37,7 @@ struct memHeader *memSlot;
 
 // called from the initproc() function 
 // before any memory allocations occur
-extern void kmeminit(void) {
+void kmeminit(void) {
     // Need to create 2 free nodes as we have hole in between the free memory space
     // head pointer points to the start of free space 
     // memSlot = (struct memHeader *)(freemem);
@@ -98,7 +98,7 @@ extern void kmeminit(void) {
 }
 
 // Helper function for testing 
-extern int checkLinkedListSize(void* head) {
+int checkLinkedListSize(void* head) {
    struct memHeader *cur = head; 
    // cur = memSlot;
 
@@ -119,7 +119,7 @@ extern int checkLinkedListSize(void* head) {
    return count;
 }
 
-extern void *kmalloc(size_t size) {
+void *kmalloc(size_t size) {
     // ASSERTION: make sure ptr is pointer to an address align to 16
     // assert((unsigned long) memSlot % 16 == 0);
     // //kprintf("\n memSlot :%d \n", memSlot);
@@ -213,7 +213,7 @@ extern void *kmalloc(size_t size) {
 }
 
 // TODO: Reset sanitycheck values after freed
-extern int kfree(void *ptr) {
+int kfree(void *ptr) {
     // Need to put the released memory back into the free list
     // Merge adjacent blocks together to create larger contiguous regions
     // stub
